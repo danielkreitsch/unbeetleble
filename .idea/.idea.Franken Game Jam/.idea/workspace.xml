@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/.idea.FrankenGameJam.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/contentModel.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/indexLayout.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/projectSettingsUpdater.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.FrankenGameJam/riderModule.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +56,7 @@
       <option name="presentableId" value="Default" />
       <updated>1604699948698</updated>
       <workItem from="1604699955608" duration="15000" />
-      <workItem from="1604700295285" duration="13000" />
+      <workItem from="1604700295285" duration="220000" />
     </task>
     <servers />
   </component>

@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour
                 this.jumpInput = false;
             }
         }
+        this.jumpInput = false;
         
         // Higher gravity when falling
         if (this.rb.velocity.y < 0)
