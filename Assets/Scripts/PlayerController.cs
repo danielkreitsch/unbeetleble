@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,16 +27,13 @@ public class PlayerController : MonoBehaviour
     
     [Header("Gravity")]
     [SerializeField]
-    private float gravityForce = 0;
-
-    [SerializeField]
     private float fallGravityMultiplier = 1;
 
     [Range(0, 25)]
     [SerializeField]
-    private float idleGravityLimit = 0;
+    private float gravityLimit = 0;
 
-    private Vector2 velocity = new Vector2();
+    //private Vector2 velocity = new Vector2();
     
     private float horizontalInput = 0;
     private bool jumpInput = false;
@@ -55,45 +53,45 @@ public class PlayerController : MonoBehaviour
         {
             this.jumpInput = true;
         }
+    }
+
+    void FixedUpdate()
+    {
+        // Aktuell hat der Spieler noch komplette horizontale Kontrolle (evtl noch ändern)
+        var targetVel = new Vector2(this.horizontalInput * this.moveSpeed, this.rb.velocity.y);
         
-        if (this.velocity.y < -this.idleGravityLimit && this.groundChecker.TouchingGround)
-        {
-            this.velocity.y = -this.idleGravityLimit;
-        }
-
-        // Gravity
-        this.velocity += Time.deltaTime * this.gravityForce * Vector2.down;
-
         // Jumping
         if (this.jumpInput)
         {
-            if (this.groundChecker.TouchingGround)
+            if (this.groundChecker.touchingGround)
             {
-                this.rb.AddForce(new Vector2(0f, this.jumpVelocity));
-                //this.rb.velocity = new Vector2(this.rb.velocity.x, this.jumpVelocity);
+                targetVel.y = this.jumpVelocity;
                 this.jumpInput = false;
             }
         }
         
         // Higher gravity when falling
-        /*if (this.velocity.y < 0)
+        if (this.rb.velocity.y < 0)
         {
-            this.velocity += Time.deltaTime * Physics2D.gravity.y * (this.fallGravityMultiplier - 1) * Vector2.up;
+            targetVel.y = targetVel.y * this.fallGravityMultiplier;
         }
         // Higher gravity when the jump button isn't hold down
-        else if (this.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (this.rb.velocity.y > 0 && !Input.GetButton("Jump"))
         {
-            this.velocity += Time.deltaTime * this.jumpReleaseGravityMultiplier * Physics2D.gravity;
-        }*/
-    }
+            targetVel.y = targetVel.y * this.jumpReleaseGravityMultiplier;
+        }
 
-    void FixedUpdate()
-    {
+        if (targetVel.y < -this.gravityLimit)
+        {
+            targetVel.y = -this.gravityLimit;
+        }
         
-        
-        // Aktuell hat der Spieler noch komplette horizontale Kontrolle (evtl noch ändern)
-        var targetVel = new Vector2(this.horizontalInput * this.moveSpeed, this.rb.velocity.y);
         this.rb.velocity = targetVel;
         //this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.currentVelocity, this.movementSmoothing);
+    }
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(5, 5, 400, 100), "Velocity: " + (Math.Round(this.rb.velocity.x * 100) / 100) + ", " + (Math.Round(this.rb.velocity.y * 100) / 100));
     }
 }

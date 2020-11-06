@@ -10,29 +10,27 @@ public class GroundChecker : MonoBehaviour
          */
     [SerializeField]
     private Transform pivot = null;
-        
+
     [SerializeField]
     private float offsetY = 0;
-        
+
     [SerializeField]
     private float radius = 0;
 
     /**
-         * A mask determining what is ground to the character.
-         */
+     ** A mask determining what is ground to the character.
+    */
     [SerializeField]
     private LayerMask layer = default;
 
     [Header("Events")]
     public UnityEvent OnLandEvent;
 
-    private bool touchingGround;
+    public bool touchingGround;
 
     private bool touchingGroundBefore;
 
     private Vector3 positionBefore;
-
-    public bool TouchingGround => this.touchingGround;
 
     public bool TouchingGroundBefore => this.touchingGroundBefore;
 
@@ -41,7 +39,7 @@ public class GroundChecker : MonoBehaviour
         this.touchingGroundBefore = this.touchingGround;
         this.touchingGround = false;
 
-        Collider[] colliders = Physics.OverlapSphere(this.pivot.position + Vector3.up * this.offsetY, this.radius, this.layer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.pivot.position.x, this.pivot.position.y) + Vector2.up * this.offsetY, this.radius, this.layer);
         for (int i = 0; i < colliders.Length; i++)
         {
             if (colliders[i].gameObject != this.gameObject)
