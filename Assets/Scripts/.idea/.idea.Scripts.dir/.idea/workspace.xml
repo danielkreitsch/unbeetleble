@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="408b57f5-ecf5-4540-b654-5e5a8c4b1306" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/CameraController.cs" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1jvpgkZSOEhUe5MsEPW2NFsGHxQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="408b57f5-ecf5-4540-b654-5e5a8c4b1306" name="Default Changelist" comment="" />
+      <created>1604694534061</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1604694534061</updated>
+      <workItem from="1604694543669" duration="168000" />
+      <workItem from="1604694748396" duration="103000" />
+    </task>
+    <servers />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="606" y="242" key="SettingsEditor" timestamp="1604694712042">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state x="606" y="242" key="SettingsEditor/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604694712042" />
+    <state x="969" y="442" key="cloudConfig.SelfSettingsDialog" timestamp="1604694676941">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state x="969" y="442" key="cloudConfig.SelfSettingsDialog/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604694676941" />
+    <state x="779" y="301" width="635" height="592" key="find.popup" timestamp="1604694681278">
+      <screen x="0" y="0" width="2194" height="1194" />
+    </state>
+    <state x="779" y="301" width="635" height="592" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604694681278" />
+  </component>
+</project>
