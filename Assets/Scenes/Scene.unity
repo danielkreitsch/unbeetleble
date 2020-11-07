@@ -1984,9 +1984,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1265296185762385529}
     - target: {fileID: 128504034330545557, guid: 316d79f51248c9f44913e01a34789f29, type: 3}
+      propertyPath: jumpSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 128504034330545557, guid: 316d79f51248c9f44913e01a34789f29, type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 128504034330545557, guid: 316d79f51248c9f44913e01a34789f29, type: 3}
       propertyPath: gameController
       value: 
       objectReference: {fileID: 1446095321}
+    - target: {fileID: 128504034330545557, guid: 316d79f51248c9f44913e01a34789f29, type: 3}
+      propertyPath: maxAttackAttempts
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 128504034330545557, guid: 316d79f51248c9f44913e01a34789f29, type: 3}
       propertyPath: digParticlesPrefab
       value: 

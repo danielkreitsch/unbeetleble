@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField]
     private GameController gameController;
 
@@ -20,8 +21,20 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private Transform model;
 
+    [Header("Wayfinding")]
     [SerializeField]
     private Transform raycastOrigin;
+
+    [Header("Jumping")]
+    [SerializeField]
+    private float jumpSpeed;
+
+    [Header("Attacking")]
+    [SerializeField]
+    private float attackRange;
+    
+    [SerializeField]
+    private int maxAttackAttempts;
 
     private State state;
 
@@ -81,8 +94,10 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_InEarth()
     {
+        this.attackCounter = 0;
+        
         this.TeleportToHoleEntry(this.GetRandomHoleEntry());
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         
         // Next state
         this.SetState(State.DigOut);
@@ -139,12 +154,31 @@ public class EnemyController : MonoBehaviour
         HoleEntry holeEntry = this.GetHoleEntryBehindTarget();
         Vector3 holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
         Vector3 targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
-        float startDistanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
-        bool attacked = false;
-
+        float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
+        
         this.transform.LookAt(targetPosition);
 
-        for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
+        float jumpTime = distanceToTarget / this.jumpSpeed;
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", jumpTime, "easeType", "linear"));
+
+        bool attacked = false;
+        
+        for (float time = 0; time < jumpTime; time += Time.deltaTime)
+        {
+            float distanceToPlayer = Vector2.Distance(this.transform.position, this.target.transform.position);
+            
+            if (!attacked && distanceToPlayer < this.attackRange)
+            {
+                attacked = true;
+                this.target.ReceiveDamage(3);
+                this.gameController.ScreenShake();
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        
+
+        /*for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
         {
             float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
             float distanceToPlayer = Vector2.Distance(this.transform.position, this.target.transform.position);
@@ -173,7 +207,7 @@ public class EnemyController : MonoBehaviour
             }
 
             yield return new WaitForEndOfFrame();
-        }
+        }*/
 
         this.TeleportToHoleEntry(holeEntry);
 
@@ -182,7 +216,7 @@ public class EnemyController : MonoBehaviour
         this.attackCounter += 1;
 
         // Next state
-        if (this.attackCounter < 3)
+        if (this.attackCounter < this.maxAttackAttempts && !attacked)
         {
             this.SetState(State.Attack1);
         }
