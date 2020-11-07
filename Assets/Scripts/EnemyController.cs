@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private Border border;
-    
+
     [SerializeField]
     private LivingEntity target;
 
@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     [Header("Attacking")]
     [SerializeField]
     private float attackRange;
-    
+
     [SerializeField]
     private int maxAttackAttempts;
 
@@ -95,10 +95,12 @@ public class EnemyController : MonoBehaviour
     IEnumerator State_InEarth()
     {
         this.attackCounter = 0;
-        
+
+        this.model.gameObject.SetActive(false);
+
         this.TeleportToHoleEntry(this.GetRandomHoleEntry());
         yield return new WaitForSeconds(2);
-        
+
         // Next state
         this.SetState(State.DigOut);
     }
@@ -113,15 +115,10 @@ public class EnemyController : MonoBehaviour
         this.digParticles.SetIntensity(0.5f);
         yield return new WaitForSeconds(2);
         this.digParticles.SetIntensity(1);
-        
-        /*for (float i = 0; i < 1; i += Time.deltaTime)
-        {
-            this.model.transform.localPosition = new Vector3(0, -1.15f + i * (1.15f - 0.65f), 0);
-            yield return new WaitForEndOfFrame();
-        }*/
-        //this.model.transform.localPosition = new Vector3(0, -0.65f, 0);
-        
+
         this.digParticles.Remove();
+
+        this.model.gameObject.SetActive(true);
 
         // Next state
         if (Random.Range(0, 1) == 0)
@@ -130,6 +127,12 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            for (float i = 0; i < 1; i += Time.deltaTime)
+            {
+                this.model.transform.localPosition = new Vector3(0, -1.15f + i * (1.15f - 0.65f), 0);
+                yield return new WaitForEndOfFrame();
+            }
+            this.model.transform.localPosition = new Vector3(0, -0.65f, 0);
             this.SetState(State.IdleOutside);
         }
     }
@@ -155,18 +158,18 @@ public class EnemyController : MonoBehaviour
         Vector3 holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
         Vector3 targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
         float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
-        
+
         this.transform.LookAt(targetPosition);
 
         float jumpTime = distanceToTarget / this.jumpSpeed;
         iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", jumpTime, "easeType", "linear"));
 
         bool attacked = false;
-        
+
         for (float time = 0; time < jumpTime; time += Time.deltaTime)
         {
             float distanceToPlayer = Vector2.Distance(this.transform.position, this.target.transform.position);
-            
+
             if (!attacked && distanceToPlayer < this.attackRange)
             {
                 attacked = true;
@@ -176,7 +179,6 @@ public class EnemyController : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-        
 
         /*for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
         {
@@ -212,7 +214,7 @@ public class EnemyController : MonoBehaviour
         this.TeleportToHoleEntry(holeEntry);
 
         yield return new WaitForSeconds(0.5f);
-        
+
         this.attackCounter += 1;
 
         // Next state
@@ -237,13 +239,13 @@ public class EnemyController : MonoBehaviour
     private HoleEntry GetHoleEntryBehindTarget()
     {
         var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.transform.position, 1000, this.border.layer);
-       
+
         if (hit.collider == null)
         {
             Debug.LogError("Border behind player not found.");
             return null;
         }
-        
+
         return this.border.GetClosestHoleEntry(hit.point);
     }
 
