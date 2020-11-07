@@ -15,6 +15,8 @@
           <e p="GameController.cs" t="Include" />
           <e p="GroundChecker.cs" t="Include" />
           <e p="HoleEntry.cs" t="Include" />
+          <e p="LivingEntity.cs" t="Include" />
+          <e p="Platform.cs" t="Include" />
           <e p="Player.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
         </e>

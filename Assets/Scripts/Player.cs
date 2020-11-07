@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public int health;
+
+    public void OnDamageReceive(int damage)
+    {
+        this.health -= damage;
+        Debug.Log("Player got " + damage + " damage, health now: " + this.health);
+    }
+    
     void Start()
     {
         
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         

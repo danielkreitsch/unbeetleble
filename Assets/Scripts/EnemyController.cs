@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -11,9 +14,9 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private Border border;
-
+    
     [SerializeField]
-    private Player player;
+    private LivingEntity target;
 
     [SerializeField]
     private Transform model;
@@ -32,22 +35,6 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        /*if (this.timer > 0)
-        {
-            this.timer -= Time.deltaTime;
-        }
-
-        if (this.timer <= 0)
-        {
-            if (this.state == State.InEarth)
-            {
-                this.SetState(State.DigOut);
-            }
-            else if (this.state == State.IdleOutside)
-            {
-                this.SetState(State.DigIn);
-            }
-        }*/
     }
 
     private void SetState(State state)
@@ -135,29 +122,23 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_Attack()
     {
-        var hit = Physics2D.Raycast(this.raycastOrigin.position, this.player.transform.position - this.transform.position, 1000, this.border.layer);
-
-        if (hit.collider == null)
-        {
-            Debug.LogError("Border behind player not found.");
-            yield break;
-        }
-
-        HoleEntry holeEntry = this.border.GetClosestHoleEntry(hit.point);
+        HoleEntry holeEntry = this.GetHoleEntryBehindTarget();
         Vector3 holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
         Vector3 targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
         float startDistanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
         bool attacked = false;
+        bool changedDirection = false;
 
-        for (float i = 0; i < 3; i += Time.deltaTime) //while (true)
+        for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
         {
             float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
-            float distanceToPlayer = Vector2.Distance(this.transform.position, this.player.transform.position);
+            float distanceToPlayer = Vector2.Distance(this.transform.position, this.target.transform.position);
             float progress = 1 - distanceToTarget / startDistanceToTarget;
 
-            if (!attacked && distanceToPlayer < 0.5f)
+            if (!attacked && distanceToPlayer < 1.5f)
             {
                 attacked = true;
+                this.target.ReceiveDamage(3);
                 this.gameController.ScreenEffect1();
             }
 
@@ -166,12 +147,21 @@ public class EnemyController : MonoBehaviour
                 break;
             }
 
-            if (progress < 0.5f)
+            if (progress < 0.5f && !changedDirection)
             {
                 this.transform.position += (targetPosition - this.transform.position) * Time.deltaTime;
             }
             else
             {
+                if (!changedDirection)
+                {
+                    changedDirection = true;
+                    holeEntry = this.GetHoleEntryBehindTarget();
+                    holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
+                    targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
+                    startDistanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
+                }
+                
                 this.transform.position += (targetPosition - this.transform.position) * Time.deltaTime * 5;
             }
 
@@ -184,6 +174,19 @@ public class EnemyController : MonoBehaviour
 
         // Next state
         this.SetState(State.InEarth);
+    }
+
+    private HoleEntry GetHoleEntryBehindTarget()
+    {
+        var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.transform.position, 1000, this.border.layer);
+       
+        if (hit.collider == null)
+        {
+            Debug.LogError("Border behind player not found.");
+            return null;
+        }
+        
+        return this.border.GetClosestHoleEntry(hit.point);
     }
 
     private void TeleportToRandomHoleEntry()

@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 128504034330545556}
   - component: {fileID: 128504034330545557}
-  - component: {fileID: 128504034330545545}
   - component: {fileID: 8795061121849568860}
+  - component: {fileID: 1332643534569414750}
+  - component: {fileID: 128504034330545545}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -49,9 +50,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
   border: {fileID: 0}
-  player: {fileID: 0}
+  target: {fileID: 0}
   model: {fileID: 450976514286992499}
   raycastOrigin: {fileID: 128504035372831489}
+--- !u!114 &8795061121849568860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128504034330545551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ed550174fe7ca4e8285d441a2760b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+--- !u!114 &1332643534569414750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128504034330545551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85df49b62603b14cb924c17ace204a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageReceiveEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8795061121849568860}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: OnDamageReceive
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &128504034330545545
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78,18 +119,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8795061121849568860
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 128504034330545551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6ed550174fe7ca4e8285d441a2760b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &128504035372831495
 GameObject:
   m_ObjectHideFlags: 0

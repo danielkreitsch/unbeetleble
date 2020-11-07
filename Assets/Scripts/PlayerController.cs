@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
     
     private float horizontalInput = 0;
     private bool jumpInput = false;
+    private bool dropInput = false;
     
     // Start is called before the first frame update
     void Start()
@@ -63,6 +64,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump"))
         {
             this.jumpInput = true;
+        }
+        
+        if (Input.GetButtonDown("Drop"))
+        {
+            this.dropInput = true;
         }
 
         if (this.groundChecker.touchingGround)
@@ -123,6 +129,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (!this.jumpInput && this.dropInput)
+        {
+            if (this.groundChecker.touchingGround)
+            {
+                this.DropFromPlatfrom();
+            }
+        }
+        this.dropInput = false;
+
         // Jumping
         if (this.jumpInput)
         {
@@ -138,11 +153,10 @@ public class PlayerController : MonoBehaviour
                 }
                 this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
                 this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
-                this.jumpInput = false;
             }
         }
         this.jumpInput = false;
-        
+
         // Higher gravity when falling
         if (this.rb.velocity.y < 0)
         {
@@ -166,5 +180,22 @@ public class PlayerController : MonoBehaviour
     void OnGUI()
     {
         //GUI.Box(new Rect(5, 5, 400, 100), "Velocity: " + (Math.Round(this.rb.velocity.x * 100) / 100) + ", " + (Math.Round(this.rb.velocity.y * 100) / 100));
+    }
+
+    public void DropFromPlatfrom()
+    {
+        this.StartCoroutine(this.CDropFromPlatform());
+    }
+
+    private IEnumerator CDropFromPlatform()
+    {
+        GameObject groundObj = this.groundChecker.touchingObj;
+        Platform platform = groundObj.GetComponent<Platform>();
+        if (platform != null)
+        {
+            platform.DeactivateCollider();
+            yield return new WaitForSeconds(0.5f);
+            platform.ActivateCollider();
+        }
     }
 }
