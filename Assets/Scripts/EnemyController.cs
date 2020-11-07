@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour
     {
         this.state = state;
 
-        Debug.Log("State: " + state);
+        //Debug.Log("State: " + state);
 
         if (state == State.DigIn)
         {
