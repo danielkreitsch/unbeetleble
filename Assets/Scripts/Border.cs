@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Border : MonoBehaviour
 {
+    public LayerMask layer;
+    
     [SerializeField]
     private Transform top;
 
@@ -47,5 +49,23 @@ public class Border : MonoBehaviour
         {
             this.holeEntries.Add(new HoleEntry(this.right.position + Vector3.up * y + Vector3.left * 0.5f, Facing.Left));
         }
+    }
+
+    public HoleEntry GetClosestHoleEntry(Vector2 position)
+    {
+        HoleEntry closestHoleEntry = null;
+        float closestHoleEntryDistance = 0;
+
+        foreach (HoleEntry holeEntry in this.holeEntries)
+        {
+            float holeEntryDistance = Vector2.Distance(position, holeEntry.position);
+            if (closestHoleEntry == null || holeEntryDistance < closestHoleEntryDistance)
+            {
+                closestHoleEntry = holeEntry;
+                closestHoleEntryDistance = holeEntryDistance;
+            }
+        }
+        
+        return closestHoleEntry;
     }
 }

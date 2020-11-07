@@ -6,14 +6,16 @@
     <e p="E:\Projekte\Franken Game Jam\Franken Game Jam" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
-        <e p="Platform.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Border.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
+          <e p="Enemy.cs" t="Include" />
           <e p="EnemyController.cs" t="Include" />
           <e p="Facing.cs" t="Include" />
+          <e p="GameController.cs" t="Include" />
           <e p="GroundChecker.cs" t="Include" />
           <e p="HoleEntry.cs" t="Include" />
+          <e p="Player.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
         </e>
       </e>

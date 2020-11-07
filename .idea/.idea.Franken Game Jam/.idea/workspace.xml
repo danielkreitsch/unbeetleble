@@ -20,17 +20,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Background.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Background.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Platform.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Platform.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Border.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Border.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Platform.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Platform.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Border.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Border.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Camera.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Camera.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Directional Light.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Directional Light.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Enemy.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Game Controller.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Game Controller.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Global Volume.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Global Volume.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/VisibleBorder.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/VisibleBorder.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Rendering/UniversalRenderPipelineAsset.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Rendering/UniversalRenderPipelineAsset.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Rendering/UniversalRenderPipelineAsset_Renderer.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Rendering/UniversalRenderPipelineAsset_Renderer.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Scene/Global Volume Profile.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Scene/Global Volume Profile.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ProjectSettings/URPProjectSettings.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/indexLayout.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Prototype/Background.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Background.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Prototype/Enemy.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Enemy.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Materials/Prototype/Player.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Player.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Platform.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Platform.cs.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Border.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Border.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/InputManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +85,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/GameController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Border.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Facing.cs" root0="FORCE_HIGHLIGHTING" />
@@ -54,9 +95,10 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Facing.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/HoleEntry.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Border.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Border.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
       </list>
     </option>
@@ -100,6 +142,7 @@
       <updated>1604699948698</updated>
       <workItem from="1604699955608" duration="15000" />
       <workItem from="1604700295285" duration="11916000" />
+      <workItem from="1604723852785" duration="221000" />
     </task>
     <servers />
   </component>
@@ -115,6 +158,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
