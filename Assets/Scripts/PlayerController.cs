@@ -15,23 +15,20 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Collider2D collider;
-    
-    [SerializeField]
-    private GroundChecker groundChecker = default;
-    
-    [SerializeField]
-    private LayerMask playerLayer;
 
     [SerializeField]
-    private LayerMask platformLayer;
-    
+    private GroundChecker groundChecker = default;
+
+    [SerializeField]
+    private LayerMask borderLayer;
+
     [Header("Movement")]
     [SerializeField]
     private float moveSpeed;
 
     [SerializeField]
     private float moveSpeedAiring;
-    
+
     [FormerlySerializedAs("moveSpeedAiring")]
     [SerializeField]
     private float slowDownFactorAiring;
@@ -39,25 +36,36 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float movementSmoothing;
 
+    [Header("Air Movement")]
+    [SerializeField]
+    private float extraAirActions = 0;
+
     [Header("Jumping")]
     [SerializeField]
-    private float extraJumps = 0;
-    
-    [SerializeField]
     private float jumpVelocity;
-
-    [SerializeField]
-    private float dashTime;
 
     [SerializeField]
     private float jumpInputAhead;
 
     [SerializeField]
     private float jumpDelayAfterGrounded;
-    
+
     [SerializeField]
     private float jumpReleaseGravityMultiplier = 1;
-    
+
+    [Header("Dashing")]
+    [SerializeField]
+    private float dashDistance;
+
+    [SerializeField]
+    private float postDashVelocity;
+
+    [SerializeField]
+    private float dashTime;
+
+    [SerializeField]
+    private string dashEaseType;
+
     [Header("Gravity")]
     [SerializeField]
     private float fallGravityMultiplier = 1;
@@ -70,19 +78,18 @@ public class PlayerController : MonoBehaviour
     private GameObject testPrefab;
 
     private Vector2 velocity = new Vector2();
-    
+
     private float horizontalInput = 0;
     private float jumpInputTimeout = 0;
     private bool dropInput = false;
     private bool dashInput = false;
 
     private bool ignorePlatforms = false;
-    private int extraJumpsUsed = 0;
-    
+    private int extraAirActionsUsed = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -94,12 +101,12 @@ public class PlayerController : MonoBehaviour
         {
             this.jumpInputTimeout -= Time.deltaTime;
         }
-        
+
         if (Input.GetButtonDown("Jump"))
         {
             this.jumpInputTimeout = this.jumpInputAhead;
         }
-        
+
         if (Input.GetButtonDown("Drop"))
         {
             this.dropInput = true;
@@ -137,7 +144,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         var targetVel = new Vector2(this.rb.velocity.x, this.rb.velocity.y);
-        
+
         if (this.groundChecker.touchingGround)
         {
             targetVel.x = this.horizontalInput * this.moveSpeed;
@@ -181,20 +188,20 @@ public class PlayerController : MonoBehaviour
         if (this.jumpInputTimeout > 0)
         {
             bool canJumpFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
-            bool canJumpInAir = this.extraJumpsUsed < this.extraJumps;
+            bool canJumpInAir = this.extraAirActionsUsed < this.extraAirActions;
             if (canJumpFromGround || canJumpInAir)
             {
                 if (canJumpFromGround)
                 {
-                    this.extraJumpsUsed = 0;
+                    this.extraAirActionsUsed = 0;
                 }
                 else
                 {
-                    this.extraJumpsUsed++;
+                    this.extraAirActionsUsed++;
                 }
-                
+
                 this.jumpInputTimeout = 0;
-                
+
                 if (this.horizontalInput > 0.01f)
                 {
                     targetVel.x = 3;
@@ -203,16 +210,31 @@ public class PlayerController : MonoBehaviour
                 {
                     targetVel.x = -3;
                 }
-                
+
                 this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
                 this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
             }
         }
-        
+
         // Dashing
         if (this.dashInput)
         {
-            this.StartCoroutine(this.CDash());
+            bool canDashFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
+            bool canDashInAir = this.extraAirActionsUsed < this.extraAirActions;
+
+            if (canDashFromGround || canDashInAir)
+            {
+                if (canDashFromGround)
+                {
+                    this.extraAirActionsUsed = 0;
+                }
+                else
+                {
+                    this.extraAirActionsUsed++;
+                }
+
+                this.StartCoroutine(this.CDash());
+            }
         }
         this.dashInput = false;
 
@@ -238,49 +260,65 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator CDash()
     {
-        Debug.Log("Dash");
-        
-        this.rb.gravityScale = 0.2f;
-        
         var myPos = this.transform.position;
         var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         mousePos.z = myPos.z;
-        var jumpDir = (mousePos - myPos).normalized;
-        this.rb.AddForce(jumpDir * this.jumpVelocity, ForceMode2D.Impulse);
 
-        foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+        var dashDir = (mousePos - myPos).normalized;
+
+        var startPosition = this.transform.position;
+        var targetPosition = this.transform.position;
+
+        bool canDash = false;
+
+        var raycast = Physics2D.Raycast(this.transform.position, dashDir, this.dashDistance + 0.25f, this.borderLayer);
+        if (raycast.collider != null)
         {
-            platform.GetComponent<BoxCollider2D>().enabled = false;
+            float distance = Vector2.Distance(this.transform.position, raycast.point);
+            if (distance >= 0.5f * this.dashDistance)
+            {
+                canDash = true;
+                var hit = new Vector3(raycast.point.x, raycast.point.y, 0);
+                targetPosition = hit - 0.25f * dashDir;
+            }
         }
-        
-        yield return new WaitForSeconds(this.dashTime);
-        
-        foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+        else
         {
-            platform.GetComponent<BoxCollider2D>().enabled = true;
+            canDash = true;
+            targetPosition = this.transform.position + this.dashDistance * dashDir;
         }
-        
-        this.rb.gravityScale = 1;
-    }
 
-    /*private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (this.ignorePlatforms && other.collider.GetComponent<Platform>() != null)
+        if (canDash)
         {
-            Physics2D.IgnoreCollision(this.collider, other.collider, true);
-            this.StartCoroutine(this.CEnableCollision(other.collider));
+            var velocityBeforeDash = this.rb.velocity;
+            this.rb.gravityScale = 0;
+
+            foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+            {
+                platform.DeactivateCollider();
+            }
+
+            iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", this.dashTime, "easeType", this.dashEaseType));
+            yield return new WaitForSeconds(this.dashTime);
+
+            this.transform.position = targetPosition;
+
+            foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+            {
+                platform.ActivateCollider();
+            }
+
+            this.rb.gravityScale = 1;
+
+            if (this.groundChecker.touchingGround)
+            {
+                this.rb.velocity = new Vector2(0, velocityBeforeDash.y);
+            }
+            else
+            {
+                this.rb.velocity = this.postDashVelocity * dashDir;
+            }
         }
-    }
-
-    private IEnumerator CEnableCollision(Collider2D otherCollider)
-    {
-        yield return new WaitForSeconds(this.dashTime);
-        Physics2D.IgnoreCollision(this.collider, otherCollider, false);
-    }*/
-
-    void OnGUI()
-    {
-        //GUI.Box(new Rect(5, 5, 400, 100), "Velocity: " + (Math.Round(this.rb.velocity.x * 100) / 100) + ", " + (Math.Round(this.rb.velocity.y * 100) / 100));
     }
 
     public void DropFromPlatfrom()
