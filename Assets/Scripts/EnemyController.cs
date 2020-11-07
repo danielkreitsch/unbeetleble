@@ -25,6 +25,10 @@ public class EnemyController : MonoBehaviour
 
     private State state;
 
+    private DigParticles digParticles;
+
+    private int attackCounter = 0;
+
     //private float timer = 0;
 
     void Start()
@@ -58,9 +62,9 @@ public class EnemyController : MonoBehaviour
         {
             this.StartCoroutine(this.State_IdleOutside());
         }
-        else if (state == State.Attack)
+        else if (state == State.Attack1)
         {
-            this.StartCoroutine(this.State_Attack());
+            this.StartCoroutine(this.State_Attack1());
         }
     }
 
@@ -89,20 +93,25 @@ public class EnemyController : MonoBehaviour
         var holeEntry = this.GetRandomHoleEntry();
         this.TeleportToHoleEntry(holeEntry);
 
-        var digParticles = this.SpawnDigParticles(holeEntry.position, 1);
+        this.digParticles = this.SpawnDigParticles(holeEntry.position, 0.1f);
+        yield return new WaitForSeconds(2);
+        this.digParticles.SetIntensity(0.5f);
+        yield return new WaitForSeconds(2);
+        this.digParticles.SetIntensity(1);
         
-        for (float i = 0; i < 1; i += Time.deltaTime)
+        /*for (float i = 0; i < 1; i += Time.deltaTime)
         {
             this.model.transform.localPosition = new Vector3(0, -1.15f + i * (1.15f - 0.65f), 0);
             yield return new WaitForEndOfFrame();
-        }
+        }*/
+        //this.model.transform.localPosition = new Vector3(0, -0.65f, 0);
         
-        this.model.transform.localPosition = new Vector3(0, -0.65f, 0);
+        this.digParticles.Remove();
 
         // Next state
         if (Random.Range(0, 1) == 0)
         {
-            this.SetState(State.Attack);
+            this.SetState(State.Attack1);
         }
         else
         {
@@ -117,7 +126,7 @@ public class EnemyController : MonoBehaviour
         // Next state
         if (Random.Range(0, 1) == 0)
         {
-            this.SetState(State.Attack);
+            this.SetState(State.Attack1);
         }
         else
         {
@@ -125,7 +134,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    IEnumerator State_Attack()
+    IEnumerator State_Attack1()
     {
         HoleEntry holeEntry = this.GetHoleEntryBehindTarget();
         Vector3 holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
@@ -145,9 +154,7 @@ public class EnemyController : MonoBehaviour
             {
                 attacked = true;
                 this.target.ReceiveDamage(3);
-                //this.gameController.ScreenEffect1();
                 this.gameController.ScreenShake();
-                
             }
 
             if (distanceToTarget < 0.05f)
@@ -155,6 +162,7 @@ public class EnemyController : MonoBehaviour
                 break;
             }
 
+           // iTween.MoveTo();
             if (progress < 0.9f)
             {
                 this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 2);
@@ -170,15 +178,25 @@ public class EnemyController : MonoBehaviour
         this.TeleportToHoleEntry(holeEntry);
 
         yield return new WaitForSeconds(0.5f);
+        
+        this.attackCounter += 1;
 
         // Next state
-        this.SetState(State.InEarth);
+        if (this.attackCounter < 3)
+        {
+            this.SetState(State.Attack1);
+        }
+        else
+        {
+            this.SetState(State.InEarth);
+        }
     }
 
     private DigParticles SpawnDigParticles(Vector3 position, float intensity)
     {
         GameObject digParticlesObj = Object.Instantiate(this.digParticlesPrefab, position, Quaternion.identity);
         DigParticles digParticles = digParticlesObj.GetComponent<DigParticles>();
+        digParticles.SetIntensity(intensity);
         return digParticles;
     }
 
@@ -229,7 +247,7 @@ public class EnemyController : MonoBehaviour
         IdleOutside,
         DigIn,
         DigOut,
-        Attack,
+        Attack1,
         Jump
     }
 }
