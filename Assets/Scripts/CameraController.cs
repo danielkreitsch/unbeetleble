@@ -11,4 +11,11 @@ public class CameraController : MonoBehaviour
     private Transform enemy;
     
     // TODO: Kamera soll immer Spieler und Gegner sehen
+
+    void Update()
+    {
+        /*var pos = this.transform.position;
+        pos.y = this.player.position.y;
+        this.transform.position = pos;*/
+    }
 }

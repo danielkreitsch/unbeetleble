@@ -14,24 +14,23 @@ public class EnemyController : MonoBehaviour
 
     private State state;
 
-    private float timer = 0;
+    //private float timer = 0;
 
     void Start()
     {
-        this.TeleportToRandomHoleEntry();
-        this.SetState(State.DigIn);
+        this.SetState(State.DigOut);
     }
 
     void Update()
     {
-        if (this.timer > 0)
+        /*if (this.timer > 0)
         {
             this.timer -= Time.deltaTime;
         }
 
         if (this.timer <= 0)
         {
-            if (this.state == State.IdleInEarth)
+            if (this.state == State.InEarth)
             {
                 this.SetState(State.DigOut);
             }
@@ -39,7 +38,7 @@ public class EnemyController : MonoBehaviour
             {
                 this.SetState(State.DigIn);
             }
-        }
+        }*/
     }
 
     private void SetState(State state)
@@ -48,23 +47,27 @@ public class EnemyController : MonoBehaviour
 
         if (state == State.DigIn)
         {
-            this.StartCoroutine(this.Action_DigIn());
+            this.StartCoroutine(this.State_DigIn());
         }
-        else if (state == State.IdleInEarth)
+        else if (state == State.InEarth)
         {
-            this.timer = 1;
+            this.StartCoroutine(this.State_InEarth());
         }
         else if (state == State.DigOut)
         {
-            this.StartCoroutine(this.Action_DigOut());
+            this.StartCoroutine(this.State_DigOut());
         }
         else if (state == State.IdleOutside)
         {
-            this.timer = 1;
+            this.StartCoroutine(this.State_IdleOutside());
+        }
+        else if (state == State.Attack)
+        {
+            this.StartCoroutine(this.State_Attack());
         }
     }
 
-    IEnumerator Action_DigIn()
+    IEnumerator State_DigIn()
     {
         for (float i = 0; i < 1; i += Time.deltaTime)
         {
@@ -72,10 +75,18 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         this.model.transform.localPosition = new Vector3(0, -1, 0);
-        this.SetState(State.IdleInEarth);
+        this.SetState(State.InEarth);
     }
     
-    IEnumerator Action_DigOut()
+    IEnumerator State_InEarth()
+    {
+        yield return new WaitForSeconds(2);
+
+        // Next state
+        this.SetState(State.DigOut);
+    }
+
+    IEnumerator State_DigOut()
     {
         this.TeleportToRandomHoleEntry();
         for (float i = 0; i < 1; i += Time.deltaTime)
@@ -84,8 +95,48 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         this.model.transform.localPosition = new Vector3(0, 0, 0);
-        this.SetState(State.IdleOutside);
+
+        // Next state
+        if (Random.Range(0, 2) == 0)
+        {
+            this.SetState(State.IdleOutside);
+        }
+        else
+        {
+            this.SetState(State.Attack);
+        }
     }
+
+    IEnumerator State_IdleOutside()
+    {
+        yield return new WaitForSeconds(2);
+
+        // Next state
+        if (Random.Range(0, 2) == 0)
+        {
+            this.SetState(State.DigIn);
+        }
+        else
+        {
+            this.SetState(State.Attack);
+        }
+    }
+    
+    IEnumerator State_Attack()
+    {
+        yield return new WaitForSeconds(1);
+
+        // Next state
+        if (Random.Range(0, 2) == 0)
+        {
+            this.SetState(State.DigIn);
+        }
+        else
+        {
+            this.SetState(State.IdleOutside);
+        }
+    }
+
 
     private void TeleportToRandomHoleEntry()
     {
@@ -115,10 +166,11 @@ public class EnemyController : MonoBehaviour
 
     enum State
     {
-        IdleInEarth,
+        InEarth,
         IdleOutside,
         DigIn,
         DigOut,
-        JumpThroughPlayer
+        Attack,
+        Jump
     }
 }

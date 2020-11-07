@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
         // Jumping
         if (this.jumpInput)
         {
-            if (this.groundChecker.touchingGround)
+            if (this.groundChecker.touchingGround && this.rb.velocity.y < 0.01f)
             {
                 if (this.horizontalInput > 0.01f)
                 {
@@ -136,8 +136,8 @@ public class PlayerController : MonoBehaviour
                 {
                     targetVel.x = -3;
                 }
+                this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
                 this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
-                //targetVel.y = this.jumpVelocity;
                 this.jumpInput = false;
             }
         }
