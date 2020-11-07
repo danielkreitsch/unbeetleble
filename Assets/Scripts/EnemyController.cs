@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using DefaultNamespace;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
@@ -127,7 +123,8 @@ public class EnemyController : MonoBehaviour
         Vector3 targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
         float startDistanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
         bool attacked = false;
-        bool changedDirection = false;
+
+        this.transform.LookAt(targetPosition);
 
         for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
         {
@@ -147,22 +144,13 @@ public class EnemyController : MonoBehaviour
                 break;
             }
 
-            if (progress < 0.5f && !changedDirection)
+            if (progress < 0.9f)
             {
-                this.transform.position += (targetPosition - this.transform.position) * Time.deltaTime;
+                this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 2);
             }
             else
             {
-                if (!changedDirection)
-                {
-                    changedDirection = true;
-                    holeEntry = this.GetHoleEntryBehindTarget();
-                    holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
-                    targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
-                    startDistanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
-                }
-                
-                this.transform.position += (targetPosition - this.transform.position) * Time.deltaTime * 5;
+                this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 5);
             }
 
             yield return new WaitForEndOfFrame();

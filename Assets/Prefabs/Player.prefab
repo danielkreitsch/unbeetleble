@@ -53,6 +53,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   touchingGround: 0
+  touchingGroundTime: 0
+  touchingObj: {fileID: 0}
 --- !u!1 &1265296185044312889
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +113,8 @@ MonoBehaviour:
   slowDownFactorAiring: 0.95
   movementSmoothing: 0.06
   jumpVelocity: 16.5
+  jumpInputAhead: 0.3
+  jumpDelayAfterGrounded: 0.05
   jumpReleaseGravityMultiplier: 1
   fallGravityMultiplier: 1.05
   gravityLimit: 15

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 public class PlayerController : MonoBehaviour
 {
@@ -28,10 +29,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float movementSmoothing;
-    
+
     [Header("Jumping")]
     [SerializeField]
+    private float extraJumps = 0;
+    
+    [SerializeField]
     private float jumpVelocity;
+
+    [SerializeField]
+    private float jumpInputAhead;
+
+    [SerializeField]
+    private float jumpDelayAfterGrounded;
     
     [SerializeField]
     private float jumpReleaseGravityMultiplier = 1;
@@ -44,11 +54,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float gravityLimit = 0;
 
+    [SerializeField]
+    private GameObject testPrefab;
+
     private Vector2 velocity = new Vector2();
     
     private float horizontalInput = 0;
-    private bool jumpInput = false;
+    private float jumpInputTimeout = 0;
     private bool dropInput = false;
+
+    private int extraJumpsUsed = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -60,10 +75,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         this.horizontalInput = Input.GetAxis("Horizontal");
+
+        if (this.jumpInputTimeout > 0)
+        {
+            this.jumpInputTimeout -= Time.deltaTime;
+        }
         
         if (Input.GetButtonDown("Jump"))
         {
-            this.jumpInput = true;
+            this.jumpInputTimeout = this.jumpInputAhead;
         }
         
         if (Input.GetButtonDown("Drop"))
@@ -129,7 +149,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!this.jumpInput && this.dropInput)
+        if (this.jumpInputTimeout > 0 && this.dropInput)
         {
             if (this.groundChecker.touchingGround)
             {
@@ -139,10 +159,19 @@ public class PlayerController : MonoBehaviour
         this.dropInput = false;
 
         // Jumping
-        if (this.jumpInput)
+        if (this.jumpInputTimeout > 0)
         {
-            if (this.groundChecker.touchingGround && this.rb.velocity.y < 0.01f)
+            bool canJumpFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
+            bool canJumpInAir = this.extraJumpsUsed < this.extraJumps;
+            if (canJumpFromGround || canJumpInAir)
             {
+                if (!canJumpFromGround)
+                {
+                    this.extraJumpsUsed++;
+                }
+                
+                this.jumpInputTimeout = 0;
+                
                 if (this.horizontalInput > 0.01f)
                 {
                     targetVel.x = 3;
@@ -152,10 +181,22 @@ public class PlayerController : MonoBehaviour
                     targetVel.x = -3;
                 }
                 this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
-                this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
+
+                var myPos = this.transform.position;
+                var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                Debug.Log(mousePos + " vorher");
+                mousePos.z = myPos.z;
+                Debug.Log(mousePos + " nachher");
+
+                //Object.Instantiate(this.testPrefab, mousePos, Quaternion.identity);
+
+                var jumpDir = (mousePos - myPos).normalized;
+       
+                //Debug.Log("Jump Direction: " + jumpDir);
+
+                this.rb.AddForce(jumpDir * this.jumpVelocity, ForceMode2D.Impulse);
             }
         }
-        this.jumpInput = false;
 
         // Higher gravity when falling
         if (this.rb.velocity.y < 0)

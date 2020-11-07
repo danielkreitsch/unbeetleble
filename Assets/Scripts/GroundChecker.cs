@@ -28,6 +28,8 @@ public class GroundChecker : MonoBehaviour
 
     public bool touchingGround;
 
+    public float touchingGroundTime;
+
     public GameObject touchingObj;
 
     private bool touchingGroundBefore;
@@ -48,12 +50,18 @@ public class GroundChecker : MonoBehaviour
             {
                 this.touchingGround = true;
                 this.touchingObj = colliders[i].gameObject;
+                this.touchingGroundTime += Time.deltaTime;
                 if (!this.touchingGroundBefore && this.transform.position.y < this.positionBefore.y)
                 {
                     this.OnLandEvent.Invoke();
                     break;
                 }
             }
+        }
+
+        if (!this.touchingGround)
+        {
+            this.touchingGroundTime = 0;
         }
 
         this.positionBefore = this.transform.position;
