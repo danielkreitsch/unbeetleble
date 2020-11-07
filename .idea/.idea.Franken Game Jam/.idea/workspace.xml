@@ -20,35 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Models/Background.blend" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Models/Background.blend.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Images.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Images/iTweenNews.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Images/iTweenNews.png.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/ReadMe!.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/ReadMe!/ReadMe!.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/ReadMe!/ReadMe!.txt.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/MoveSample.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/MoveSample.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/RotateSample.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/RotateSample.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/Sample.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/Sample.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/SampleInfo.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/Sample/SampleInfo.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/iTween.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Plugins/Pixelplacement/iTween/iTween.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Background.blend" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Background.blend" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene/Global Volume Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene/Global Volume Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene/Laser Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene/Laser Profile.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/UnityConnectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,9 +58,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Platform.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" />
       </list>
     </option>
   </component>
@@ -130,7 +104,7 @@
       <workItem from="1604699955608" duration="15000" />
       <workItem from="1604700295285" duration="11916000" />
       <workItem from="1604723852785" duration="3734000" />
-      <workItem from="1604749467705" duration="18535000" />
+      <workItem from="1604749467705" duration="19657000" />
     </task>
     <servers />
   </component>
