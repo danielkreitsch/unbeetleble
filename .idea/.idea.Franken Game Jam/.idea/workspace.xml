@@ -20,9 +20,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/Music/BattleTheme.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/Music/BattleTheme.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/Music/StandardTheme.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Audio/Music/StandardTheme.mp3.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MusicController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/MusicController.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Audio/Music/soundskizze_evil_keafer2.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Audio/Music/soundskizze_evil_keafer2.mp3.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Audio/Music/soundskizze_evil_keafer3.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Audio/Music/soundskizze_evil_keafer3.mp3.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +120,7 @@
       <workItem from="1604700295285" duration="11916000" />
       <workItem from="1604723852785" duration="3734000" />
       <workItem from="1604749467705" duration="26247000" />
-      <workItem from="1604784227831" duration="7099000" />
+      <workItem from="1604784227831" duration="7519000" />
     </task>
     <servers />
   </component>
