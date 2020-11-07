@@ -2,18 +2,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
-    private Rigidbody2D rb = new Rigidbody2D();
+    private Rigidbody2D rb = default;
 
     [SerializeField]
-    private GroundChecker groundChecker;
+    private Transform model = default;
+    
+    [SerializeField]
+    private GroundChecker groundChecker = default;
     
     [Header("Movement")]
     [SerializeField]
     private float moveSpeed;
+
+    [SerializeField]
+    private float moveSpeedAiring;
+    
+    [FormerlySerializedAs("moveSpeedAiring")]
+    [SerializeField]
+    private float slowDownFactorAiring;
 
     [SerializeField]
     private float movementSmoothing;
@@ -33,7 +44,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float gravityLimit = 0;
 
-    //private Vector2 velocity = new Vector2();
+    private Vector2 velocity = new Vector2();
     
     private float horizontalInput = 0;
     private bool jumpInput = false;
@@ -53,19 +64,80 @@ public class PlayerController : MonoBehaviour
         {
             this.jumpInput = true;
         }
+
+        if (this.groundChecker.touchingGround)
+        {
+            if (this.horizontalInput > 0.01f)
+            {
+                this.model.eulerAngles = new Vector3(0, 90, 0);
+            }
+            else if (this.horizontalInput < -0.01f)
+            {
+                this.model.eulerAngles = new Vector3(0, 270, 0);
+            }
+        }
+        else
+        {
+            if (this.rb.velocity.x > 0.1f)
+            {
+                this.model.eulerAngles = new Vector3(0, 90, 0);
+            }
+            else if (this.rb.velocity.x < -0.1f)
+            {
+                this.model.eulerAngles = new Vector3(0, 270, 0);
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        // Aktuell hat der Spieler noch komplette horizontale Kontrolle (evtl noch ändern)
-        var targetVel = new Vector2(this.horizontalInput * this.moveSpeed, this.rb.velocity.y);
+        var targetVel = new Vector2(this.rb.velocity.x, this.rb.velocity.y);
         
+        if (this.groundChecker.touchingGround)
+        {
+            targetVel.x = this.horizontalInput * this.moveSpeed;
+        }
+        else
+        {
+            if (this.horizontalInput > 0.01f)
+            {
+                if (targetVel.x < -0.1f)
+                {
+                    targetVel.x *= this.slowDownFactorAiring;
+                }
+                else if (targetVel.x < this.horizontalInput * this.moveSpeedAiring)
+                {
+                    targetVel.x = this.horizontalInput * this.moveSpeedAiring;
+                }
+            }
+            else if (this.horizontalInput < -0.01f)
+            {
+                if (targetVel.x > 0.1f)
+                {
+                    targetVel.x *= this.slowDownFactorAiring;
+                }
+                else if (targetVel.x > this.horizontalInput * this.moveSpeedAiring)
+                {
+                    targetVel.x = this.horizontalInput * this.moveSpeedAiring;
+                }
+            }
+        }
+
         // Jumping
         if (this.jumpInput)
         {
             if (this.groundChecker.touchingGround)
             {
-                targetVel.y = this.jumpVelocity;
+                if (this.horizontalInput > 0.01f)
+                {
+                    targetVel.x = 3;
+                }
+                else if (this.horizontalInput < -0.01f)
+                {
+                    targetVel.x = -3;
+                }
+                this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
+                //targetVel.y = this.jumpVelocity;
                 this.jumpInput = false;
             }
         }
@@ -86,9 +158,9 @@ public class PlayerController : MonoBehaviour
         {
             targetVel.y = -this.gravityLimit;
         }
-        
-        this.rb.velocity = targetVel;
-        //this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.currentVelocity, this.movementSmoothing);
+
+        //this.rb.velocity = targetVel;
+        this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
     }
 
     void OnGUI()

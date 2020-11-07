@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace;
 using UnityEngine;
 
 public class Border : MonoBehaviour
@@ -18,36 +19,33 @@ public class Border : MonoBehaviour
     private Transform right;
 
     [SerializeField]
+    private float minDistanceToCorner;
+    
+    [SerializeField]
     private float holeSpacing;
 
-    public List<Vector2> holeEntries = new List<Vector2>();
+    public List<HoleEntry> holeEntries = new List<HoleEntry>();
 
     void Awake()
     {
-        for (float x = -(this.top.localScale.x / 2 - 0.5f); x < this.top.localScale.x / 2 - 0.5f; x += this.holeSpacing)
+        for (float x = -(this.top.localScale.x / 2 - 0.5f - this.minDistanceToCorner); x < this.top.localScale.x / 2 - 0.5f - this.minDistanceToCorner; x += this.holeSpacing)
         {
-            this.holeEntries.Add(this.top.position + Vector3.right * x + Vector3.down * 0.5f);
+            this.holeEntries.Add(new HoleEntry(this.top.position + Vector3.right * x + Vector3.down * 0.5f, Facing.Bottom));
         }
         
-        for (float x = -(this.bottom.localScale.x / 2 - 0.5f); x < this.bottom.localScale.x / 2 - 0.5f; x += this.holeSpacing)
+        for (float x = -(this.bottom.localScale.x / 2 - 0.5f - this.minDistanceToCorner); x < this.bottom.localScale.x / 2 - 0.5f - this.minDistanceToCorner; x += this.holeSpacing)
         {
-            this.holeEntries.Add(this.bottom.position + Vector3.right * x + Vector3.up * 0.5f);
+            this.holeEntries.Add(new HoleEntry(this.bottom.position + Vector3.right * x + Vector3.up * 0.5f, Facing.Top));
         }
         
-        for (float y = -(this.left.localScale.y / 2 - 0.5f); y < this.left.localScale.y / 2 - 0.5f; y += this.holeSpacing)
+        for (float y = -(this.left.localScale.y / 2 - 0.5f - this.minDistanceToCorner); y < this.left.localScale.y / 2 - 0.5f - this.minDistanceToCorner; y += this.holeSpacing)
         {
-            this.holeEntries.Add(this.left.position + Vector3.up * y + Vector3.right * 0.5f);
+            this.holeEntries.Add(new HoleEntry(this.left.position + Vector3.up * y + Vector3.right * 0.5f, Facing.Right));
         }
         
-        for (float y = -(this.right.localScale.y / 2 - 0.5f); y < this.right.localScale.y / 2 - 0.5f; y += this.holeSpacing)
+        for (float y = -(this.right.localScale.y / 2 - 0.5f - this.minDistanceToCorner); y < this.right.localScale.y / 2 - 0.5f - this.minDistanceToCorner; y += this.holeSpacing)
         {
-            this.holeEntries.Add(this.right.position + Vector3.up * y + Vector3.left * 0.5f);
+            this.holeEntries.Add(new HoleEntry(this.right.position + Vector3.up * y + Vector3.left * 0.5f, Facing.Left));
         }
-        
-        // TODO: Das gleiche für links und rechts
-    }
-
-    void Update()
-    {
     }
 }
