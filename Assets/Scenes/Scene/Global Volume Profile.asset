@@ -44,7 +44,7 @@ MonoBehaviour:
     max: 32
   focalLength:
     m_OverrideState: 1
-    m_Value: 300
+    m_Value: 210
     min: 1
     max: 300
   bladeCount:
@@ -78,11 +78,11 @@ MonoBehaviour:
   m_AdvancedMode: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.4
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
     min: 0
   scatter:
     m_OverrideState: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
-    m_Value: 15
+    m_Value: 19
     min: -100
     max: 100
   tint:
@@ -176,12 +176,12 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.357
+    m_Value: 0.434
     min: 0
     max: 1
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.138
+    m_Value: 0.246
     min: 0.01
     max: 1
   rounded:

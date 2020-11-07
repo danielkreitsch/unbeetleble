@@ -21,17 +21,9 @@ public class CameraController : MonoBehaviour
     private IEnumerator CIntro()
     {
         yield return new WaitForSeconds(0.5f);
-
-        var startPos = this.transform.position;
+        
         var targetPos = new Vector3(this.transform.position.x, 0, this.transform.position.z);
-
-        for (float i = 0; i < 1; i += 0.8f * Time.deltaTime)
-        {
-            this.transform.position = Vector3.Slerp(startPos, targetPos, i);
-            yield return new WaitForEndOfFrame();
-        }
-
-        this.transform.position = targetPos;
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPos, "time", 2, "easeType", "easeInOutCubic"));
     }
 
     void Update()

@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private Collider2D collider;
 
     [SerializeField]
+    private Animator animator;
+    
+    [SerializeField]
     private GroundChecker groundChecker = default;
 
     [SerializeField]
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour
     private bool dropInput = false;
     private bool dashInput = false;
 
-    private bool ignorePlatforms = false;
+    private bool lookRight;
     private int extraAirActionsUsed = 0;
 
     // Start is called before the first frame update
@@ -95,7 +98,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.horizontalInput = Input.GetAxis("Horizontal");
+        this.horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (this.jumpInputTimeout > 0)
         {
@@ -119,26 +122,31 @@ public class PlayerController : MonoBehaviour
 
         if (this.groundChecker.touchingGround)
         {
-            if (this.horizontalInput > 0.01f)
+            if (!this.lookRight && this.horizontalInput > 0.01f)
             {
-                this.model.eulerAngles = new Vector3(0, 90, 0);
+                this.lookRight = true;
+                this.model.eulerAngles = new Vector3(0, 90 + 17.5f, 0);
             }
-            else if (this.horizontalInput < -0.01f)
+            else if (this.lookRight && this.horizontalInput < -0.01f)
             {
-                this.model.eulerAngles = new Vector3(0, 270, 0);
+                this.lookRight = false;
+                this.model.eulerAngles = new Vector3(0, 270 - 17.5f, 0);
             }
         }
         else
         {
-            if (this.rb.velocity.x > 0.1f)
+            /*if (this.rb.velocity.x > 0.1f)
             {
-                this.model.eulerAngles = new Vector3(0, 90, 0);
+                this.model.eulerAngles = new Vector3(0, 90 + 17.5f, 0);
             }
             else if (this.rb.velocity.x < -0.1f)
             {
-                this.model.eulerAngles = new Vector3(0, 270, 0);
-            }
+                this.model.eulerAngles = new Vector3(0, 270 - 17.5f, 0);
+            }*/
         }
+        
+        this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.horizontalInput));
+        this.animator.SetBool("TouchingGround", this.groundChecker.touchingGround);
     }
 
     void FixedUpdate()

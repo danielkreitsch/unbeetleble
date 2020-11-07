@@ -15,6 +15,9 @@ public class EnemyController : MonoBehaviour
     private LivingEntity target;
 
     [SerializeField]
+    private GameObject digParticlesPrefab;
+
+    [SerializeField]
     private Transform model;
 
     [SerializeField]
@@ -37,7 +40,7 @@ public class EnemyController : MonoBehaviour
     {
         this.state = state;
 
-        //Debug.Log("State: " + state);
+        Debug.Log("State: " + state);
 
         if (state == State.DigIn)
         {
@@ -74,20 +77,26 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_InEarth()
     {
-        yield return new WaitForSeconds(2);
-
+        this.TeleportToHoleEntry(this.GetRandomHoleEntry());
+        yield return new WaitForSeconds(1);
+        
         // Next state
         this.SetState(State.DigOut);
     }
 
     IEnumerator State_DigOut()
     {
-        this.TeleportToRandomHoleEntry();
+        var holeEntry = this.GetRandomHoleEntry();
+        this.TeleportToHoleEntry(holeEntry);
+
+        var digParticles = this.SpawnDigParticles(holeEntry.position, 1);
+        
         for (float i = 0; i < 1; i += Time.deltaTime)
         {
             this.model.transform.localPosition = new Vector3(0, -1.15f + i * (1.15f - 0.65f), 0);
             yield return new WaitForEndOfFrame();
         }
+        
         this.model.transform.localPosition = new Vector3(0, -0.65f, 0);
 
         // Next state
@@ -136,7 +145,9 @@ public class EnemyController : MonoBehaviour
             {
                 attacked = true;
                 this.target.ReceiveDamage(3);
-                this.gameController.ScreenEffect1();
+                //this.gameController.ScreenEffect1();
+                this.gameController.ScreenShake();
+                
             }
 
             if (distanceToTarget < 0.05f)
@@ -164,6 +175,13 @@ public class EnemyController : MonoBehaviour
         this.SetState(State.InEarth);
     }
 
+    private DigParticles SpawnDigParticles(Vector3 position, float intensity)
+    {
+        GameObject digParticlesObj = Object.Instantiate(this.digParticlesPrefab, position, Quaternion.identity);
+        DigParticles digParticles = digParticlesObj.GetComponent<DigParticles>();
+        return digParticles;
+    }
+
     private HoleEntry GetHoleEntryBehindTarget()
     {
         var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.transform.position, 1000, this.border.layer);
@@ -177,9 +195,9 @@ public class EnemyController : MonoBehaviour
         return this.border.GetClosestHoleEntry(hit.point);
     }
 
-    private void TeleportToRandomHoleEntry()
+    private HoleEntry GetRandomHoleEntry()
     {
-        this.TeleportToHoleEntry(this.border.holeEntries[Random.Range(0, this.border.holeEntries.Count)]);
+        return this.border.holeEntries[Random.Range(0, this.border.holeEntries.Count)];
     }
 
     private void TeleportToHoleEntry(HoleEntry holeEntry)
