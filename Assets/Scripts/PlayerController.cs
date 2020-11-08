@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject laserPrefab;
 
+    [SerializeField]
+    private MusicController musicController;
+    
     [Header("Movement")]
     [SerializeField]
     private float moveSpeed;
@@ -119,6 +122,12 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (this.died)
+        {
+            this.animator.SetFloat("WalkSpeed", 0);
+            return;
+        }
+
         this.horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (this.jumpInputTimeout > 0)
@@ -182,6 +191,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (this.died)
+        {
+            return;
+        }
+        
         var targetVel = new Vector2(this.rb.velocity.x, this.rb.velocity.y);
 
         if (this.groundChecker.touchingGround && !this.attacking)
@@ -334,7 +348,10 @@ public class PlayerController : MonoBehaviour
     {
         this.rb.constraints = RigidbodyConstraints2D.None;
         this.rb.angularVelocity = 1;
-        yield return new WaitForSeconds(3f);
+        this.rb.drag = 0.5f;
+        this.rb.velocity = 0.5f * this.rb.velocity;
+        this.musicController.OnDeath();
+        yield return new WaitForSeconds(5f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

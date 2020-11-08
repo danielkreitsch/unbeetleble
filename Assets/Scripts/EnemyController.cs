@@ -53,6 +53,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private int maxAttackAttempts;
 
+    public float startTime;
+
     private State state;
     private State previousState;
 
@@ -64,7 +66,7 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        this.SetState(State.InEarth);
+        this.Invoke(() => this.SetState(State.InEarth), this.startTime);
     }
 
     void Update()
@@ -125,7 +127,7 @@ public class EnemyController : MonoBehaviour
         this.model.gameObject.SetActive(false);
 
         this.transform.position = this.GetPositionInHoleEntry(this.GetRandomHoleEntry());
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(4);
 
         // Next state
         this.SetState(State.DigOut);
@@ -138,12 +140,12 @@ public class EnemyController : MonoBehaviour
 
         this.digParticles = this.SpawnDigParticles(holeEntry.position, 0.1f);
         yield return new WaitForSeconds(2);
-        this.digParticles.SetIntensity(0.5f);
+        this.digParticles.SetIntensity(0.3f);
         yield return new WaitForSeconds(2);
         this.digParticles.SetIntensity(1);
-
+        yield return new WaitForSeconds(2);
+        
         this.digParticles.Remove();
-
         this.model.gameObject.SetActive(true);
 
         // Next state
@@ -248,20 +250,20 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         
         this.attackCounter += 1;
 
         // Next state
         if (this.attackCounter < this.maxAttackAttempts)
         {
-            if (Random.Range(0, 4) == 0)
+            if (Random.Range(0, 3) == 0)
             {
-                this.SetState(State.Attack1);
+                this.SetState(State.Attack2);
             }
             else
             {
-                this.SetState(State.Attack2);
+                this.SetState(State.Attack1);
             }
         }
         else
