@@ -99,13 +99,14 @@ public class PlayerController : MonoBehaviour
     private bool dashInput = false;
 
     private bool attacking;
-    private bool lookRight;
+    private bool lookRight = true;
     private int extraAirActionsUsed = 0;
     private bool died = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        iTween.RotateTo(this.model.gameObject, new Vector3(0, 90 + 17.5f, 0), 0.2f);
     }
 
     // Update is called once per frame
