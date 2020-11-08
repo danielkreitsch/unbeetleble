@@ -62,6 +62,8 @@ public class EnemyController : MonoBehaviour
 
     private int attackCounter = 0;
 
+    private bool forcePoisonAttack = false;
+
     //private float timer = 0;
 
     void Start()
@@ -227,13 +229,21 @@ public class EnemyController : MonoBehaviour
         // Next state
         if (this.attackCounter < this.maxAttackAttempts)
         {
-            if (Random.Range(0, 2) == 0)
+            if (this.forcePoisonAttack)
             {
-                this.SetState(State.Attack1);
+                this.forcePoisonAttack = false;
+                this.SetState(State.Attack2);
             }
             else
             {
-                this.SetState(State.Attack2);
+                if (Random.Range(0, 2) == 0)
+                {
+                    this.SetState(State.Attack1);
+                }
+                else
+                {
+                    this.SetState(State.Attack2);
+                }
             }
         }
         else
@@ -308,6 +318,8 @@ public class EnemyController : MonoBehaviour
                     furthestHolyEntryDistance = holyEntryDistance;
                 }
             }
+
+            this.forcePoisonAttack = true;
 
             return furthestHoleEntry;
         }
