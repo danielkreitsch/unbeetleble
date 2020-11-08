@@ -79,6 +79,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string dashEaseType;
 
+    [Header("Attacking")]
+    [SerializeField]
+    private float laserBuildupTime = 1.2f;
+    
+    [SerializeField]
+    private float laserDisappearTime = 0.4f;
+
     [Header("Gravity")]
     [SerializeField]
     private float fallGravityMultiplier = 1;
@@ -349,7 +356,9 @@ public class PlayerController : MonoBehaviour
          laser.transform.eulerAngles = new Vector3(angle, 90, -90);*/
         laser.transform.LookAt(mousePos);
 
-        for (float time = 0; time < 1.2f; time += Time.deltaTime)
+        laser.Buildup(this.laserBuildupTime);
+        
+        for (float time = 0; time < this.laserBuildupTime; time += Time.deltaTime)
         {
             if (!this.attacking)
             {
@@ -360,9 +369,9 @@ public class PlayerController : MonoBehaviour
         }
       
         laser.SetLaserWidth(0.06f);
-        laser.Disappear();
+        laser.Disappear(this.laserDisappearTime);
 
-        for (float time = 0; time < 0.4f; time += Time.deltaTime)
+        for (float time = 0; time < this.laserDisappearTime; time += Time.deltaTime)
         {
             if (!this.attacking)
             {

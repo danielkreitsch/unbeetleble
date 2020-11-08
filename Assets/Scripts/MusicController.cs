@@ -5,10 +5,10 @@ using UnityEngine;
 public class MusicController : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource standardAudio;
+    private AudioSource silence;
     
     [SerializeField]
-    private AudioSource battleAudio;
+    private AudioSource bassdrum;
 
     private bool gameEnded = false;
 
@@ -19,8 +19,8 @@ public class MusicController : MonoBehaviour
             return;
         }
         
-        this.standardAudio.volume = standard;
-        this.battleAudio.volume = battle;
+        this.silence.volume = standard;
+        this.bassdrum.volume = battle;
     }
 
     public void FadeToVolume(float standard, float battle, float time)
@@ -30,18 +30,18 @@ public class MusicController : MonoBehaviour
 
     private IEnumerator CFadeToVolume(float standard, float battle, float time)
     {
-        float startStandard = this.standardAudio.volume;
-        float startBattle = this.battleAudio.volume;
+        float startStandard = this.silence.volume;
+        float startBattle = this.bassdrum.volume;
 
         for (float t = 0; t < time; t += Time.deltaTime)
         {
-            this.standardAudio.volume = startStandard + (standard - startStandard) * (t / time);
-            this.battleAudio.volume = startBattle + (battle - startBattle) * (t / time);
+            this.silence.volume = startStandard + (standard - startStandard) * (t / time);
+            this.bassdrum.volume = startBattle + (battle - startBattle) * (t / time);
             yield return new  WaitForEndOfFrame();
         }
 
-        this.standardAudio.volume = standard;
-        this.battleAudio.volume = battle;
+        this.silence.volume = standard;
+        this.bassdrum.volume = battle;
     }
 
     public void OnDeath()
@@ -54,9 +54,9 @@ public class MusicController : MonoBehaviour
         this.gameEnded = true;
         for (float t = 0; t < 1; t += 0.5f * Time.deltaTime)
         {
-            this.standardAudio.volume = Mathf.Min(this.standardAudio.volume, 1 - t);
-            this.battleAudio.volume = Mathf.Max(this.battleAudio.volume, t);
-            this.battleAudio.pitch = 1 - t;
+            this.silence.volume = Mathf.Min(this.silence.volume, 1 - t);
+            this.bassdrum.volume = Mathf.Max(this.bassdrum.volume, t);
+            this.bassdrum.pitch = 1 - t;
             yield return new  WaitForEndOfFrame();
         }
     }
@@ -71,9 +71,9 @@ public class MusicController : MonoBehaviour
         this.gameEnded = true;
         for (float t = 0; t < 1; t += 0.5f * Time.deltaTime)
         {
-            this.battleAudio.volume = Mathf.Min(this.standardAudio.volume, 1 - t);
-            this.standardAudio.volume = Mathf.Max(this.battleAudio.volume, t);
-            this.standardAudio.pitch = 1 + 2 * t;
+            this.bassdrum.volume = Mathf.Min(this.silence.volume, 1 - t);
+            this.silence.volume = Mathf.Max(this.bassdrum.volume, t);
+            this.silence.pitch = 1 + 2 * t;
             yield return new WaitForEndOfFrame();
         }
     }

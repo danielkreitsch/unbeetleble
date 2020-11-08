@@ -20,12 +20,17 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.008f, "to", 0.003f, "onupdate", "SetLaserWidth", "time", 1f, "easeType", this.easeTypeStart));
+        this.SetLaserWidth(0);
+    }
+    
+    public void Buildup(float laserBuildupTime)
+    {
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.008f, "to", 0.003f, "onupdate", "SetLaserWidth", "time", laserBuildupTime, "easeType", this.easeTypeStart));
     }
 
-    public void Disappear()
+    public void Disappear(float time)
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.06f, "to", 0.0f, "onupdate", "SetLaserWidth", "time", 0.4f, "easeType", this.easeTypeEnd));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.06f, "to", 0.0f, "onupdate", "SetLaserWidth", "time", time, "easeType", this.easeTypeEnd));
     }
 
     public void SetLaserWidth(float width)
