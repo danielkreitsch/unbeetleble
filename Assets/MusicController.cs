@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class MusicController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private AudioSource standardAudio;
+    
+    [SerializeField]
+    private AudioSource battleAudio;
 
-    // Update is called once per frame
-    void Update()
+    public void SetVolume(float standard, float battle)
     {
-        
+        this.standardAudio.volume = standard;
+        this.battleAudio.volume = battle;
     }
 }

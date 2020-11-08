@@ -10,6 +10,9 @@ public class EnemyController : MonoBehaviour
     private GameController gameController;
 
     [SerializeField]
+    private MusicController musicController;
+    
+    [SerializeField]
     private Border border;
 
     [SerializeField]
@@ -94,6 +97,8 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_InEarth()
     {
+        this.musicController.SetVolume(1, 0);
+        
         this.attackCounter = 0;
 
         this.model.gameObject.SetActive(false);
@@ -107,6 +112,8 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_DigOut()
     {
+        this.musicController.SetVolume(1, 0);
+        
         var holeEntry = this.GetRandomHoleEntry();
         this.TeleportToHoleEntry(holeEntry);
 
@@ -163,6 +170,8 @@ public class EnemyController : MonoBehaviour
 
         float jumpTime = distanceToTarget / this.jumpSpeed;
         iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", jumpTime, "easeType", "linear"));
+        
+        this.musicController.SetVolume(0, 1);
 
         bool attacked = false;
 
