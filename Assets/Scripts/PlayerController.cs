@@ -312,7 +312,10 @@ public class PlayerController : MonoBehaviour
         }
 
         //this.rb.velocity = targetVel;
-        this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
+        if (!this.attacking)
+        {
+            this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
+        }
     }
 
     public void OnDamageReceive(int damage)

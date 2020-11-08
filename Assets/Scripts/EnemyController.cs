@@ -257,7 +257,7 @@ public class EnemyController : MonoBehaviour
         for (int y = 2; y >= 0; y--)
         {
             this.ShootPoisonBullet(this.target.transform.position + Vector3.up * y * 3 + new Vector3(0, 0, -1));
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(5.5f);
         }
 
         yield return new WaitForSeconds(0.5f);
