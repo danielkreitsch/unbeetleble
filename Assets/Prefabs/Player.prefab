@@ -129,6 +129,8 @@ MonoBehaviour:
   postDashVelocity: 5
   dashTime: 0.3
   dashEaseType: linear
+  laserBuildupTime: 1.5
+  laserDisappearTime: 0.4
   fallGravityMultiplier: 1.05
   gravityLimit: 15
   testPrefab: {fileID: 4086024400148629874, guid: 5aff9d7511888b3409fd9b5062d4a30e, type: 3}
