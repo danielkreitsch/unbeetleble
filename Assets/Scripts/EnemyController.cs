@@ -15,6 +15,9 @@ public class EnemyController : MonoBehaviour
     private MusicController musicController;
 
     [SerializeField]
+    private CameraController cameraController;
+
+    [SerializeField]
     private Enemy enemy;
 
     [SerializeField]
@@ -308,6 +311,7 @@ public class EnemyController : MonoBehaviour
         this.rb.drag = 0.5f;
         this.rb.velocity = 0.5f * this.rb.velocity;
         this.musicController.OnWin();
+        this.cameraController.OnWin();
         yield return new WaitForSeconds(5f);
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
