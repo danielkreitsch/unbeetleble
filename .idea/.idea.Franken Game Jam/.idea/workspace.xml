@@ -20,11 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/FrankenGameJamLogo.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/FrankenGameJamLogo.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/FrankenGameJamLogo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/FrankenGameJamLogo.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MusicController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MusicController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Music Controller.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Music Controller.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,10 +78,10 @@
         <option value="$PROJECT_DIR$/Assets/PoisonBullet.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Laser.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/MusicController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DigParticles.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
       </list>
     </option>
   </component>
@@ -126,7 +127,8 @@
       <workItem from="1604723852785" duration="3734000" />
       <workItem from="1604749467705" duration="26247000" />
       <workItem from="1604784227831" duration="28862000" />
-      <workItem from="1604815311732" duration="1137000" />
+      <workItem from="1604815311732" duration="1556000" />
+      <workItem from="1604835359022" duration="1125000" />
     </task>
     <servers />
   </component>

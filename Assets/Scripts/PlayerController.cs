@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (this.attackInput && !this.attacking && this.groundChecker.touchingGround)
+        if (this.attackInput && !this.attacking)
         {
             this.StartCoroutine(this.CAttack());
         }
@@ -314,6 +314,17 @@ public class PlayerController : MonoBehaviour
         this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
     }
 
+    public void OnDamageReceive(int damage)
+    {
+        if (damage > 1)
+        {
+            if (this.attacking)
+            {
+                this.attacking = false;
+            }
+        }
+    }
+
     private IEnumerator CAttack()
     {
         this.attacking = true;
@@ -333,12 +344,37 @@ public class PlayerController : MonoBehaviour
          
          laser.transform.eulerAngles = new Vector3(angle, 90, -90);*/
         laser.transform.LookAt(mousePos);
-        
-        yield return new WaitForSeconds(1.2f);
+
+        for (float time = 0; time < 1.2f; time += Time.deltaTime)
+        {
+            if (!this.attacking)
+            {
+                this.CancelAttack(laser);
+                yield break;
+            }
+            yield return null;
+        }
+      
         laser.SetLaserWidth(0.06f);
         laser.Disappear();
 
-        yield return new WaitForSeconds(0.4f);
+        for (float time = 0; time < 0.4f; time += Time.deltaTime)
+        {
+            if (!this.attacking)
+            {
+                this.CancelAttack(laser);
+                yield break;
+            }
+            yield return null;
+        }
+        
+        Object.Destroy(laser.gameObject);
+        this.rb.bodyType = RigidbodyType2D.Dynamic;
+        this.attacking = false;
+    }
+
+    private void CancelAttack(Laser laser)
+    {
         Object.Destroy(laser.gameObject);
         this.rb.bodyType = RigidbodyType2D.Dynamic;
         this.attacking = false;
