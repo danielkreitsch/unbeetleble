@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameController GameController;
+    
     public int health;
 
     private bool poisonTrigger = false;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
             {
                 this.poisonTrigger = false;
                 this.OnDamageReceive(1);
+                
             }
         }
     }
