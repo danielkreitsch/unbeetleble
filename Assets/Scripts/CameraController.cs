@@ -21,6 +21,7 @@ public class CameraController : MonoBehaviour
     private Vector3 startPosition;
 
     private bool introDone = false;
+    private bool gameEnded = false;
 
     private Vector3 defaultPosition;
 
@@ -44,10 +45,24 @@ public class CameraController : MonoBehaviour
         yield return new WaitForSeconds(2);
         this.introDone = true;
     }
+
+    public void OnWin()
+    {
+        this.StartCoroutine(this.COnWin());
+    }
+
+    private IEnumerator COnWin()
+    {
+        this.gameEnded = true;
+        
+        var targetPos = this.startPosition;
+        yield return new WaitForSeconds(2.5f);
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPos, "time", 2, "easeType", "easeInOutCubic"));
+    }
     
     void Update()
     {
-        if (this.introDone)
+        if (this.introDone && !this.gameEnded)
         {
             var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
             mousePos.z = 0;

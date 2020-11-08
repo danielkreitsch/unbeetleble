@@ -20,7 +20,8 @@ public class LaserRecognizer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<LaserCollider>() != null)
+        var laserCollider = other.gameObject.GetComponent<LaserCollider>();
+        if (laserCollider != null)
         {
             this.entity.ReceiveDamage(1);
         }

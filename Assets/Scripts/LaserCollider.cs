@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LaserCollider : MonoBehaviour
 {
+    public Collider collider;
+
     // Start is called before the first frame update
     void Start()
     {

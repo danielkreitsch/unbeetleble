@@ -7,6 +7,8 @@ public class Laser : MonoBehaviour
 {
     public Transform body;
 
+    public LaserCollider collider;
+
     public Volume volume;
 
     public string easeTypeStart;
@@ -14,6 +16,13 @@ public class Laser : MonoBehaviour
     public string easeTypeEnd;
 
     public float bloomIntensity;
+
+    private float laserWidth;
+    
+    public float LaserWidth
+    {
+        get => this.laserWidth;
+    }
 
     private UnityEngine.Rendering.Universal.Bloom bloom;
 
@@ -35,6 +44,17 @@ public class Laser : MonoBehaviour
 
     public void SetLaserWidth(float width)
     {
+        this.laserWidth = width;
+        
+        if (width > 0.05f)
+        {
+            this.collider.collider.enabled = true;
+        }
+        else if (width < 0.05f)
+        {
+            this.collider.collider.enabled = false;
+        }
+        
         var scale = this.body.transform.localScale;
         scale.y = width;
         this.body.transform.localScale = scale;

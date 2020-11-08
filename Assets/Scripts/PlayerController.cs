@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private MusicController musicController;
-    
+
     [Header("Movement")]
     [SerializeField]
     private float moveSpeed;
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     [Header("Attacking")]
     [SerializeField]
     private float laserBuildupTime = 1.2f;
-    
+
     [SerializeField]
     private float laserDisappearTime = 0.4f;
 
@@ -97,6 +97,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject testPrefab;
 
+    [Header("Misc")]
+    [SerializeField]
+    private float knockbackTime;
+
     private Vector2 velocity = new Vector2();
 
     private float horizontalInput = 0;
@@ -109,6 +113,7 @@ public class PlayerController : MonoBehaviour
     private bool lookRight = true;
     private int extraAirActionsUsed = 0;
     private bool died = false;
+    private bool outOfControl;
 
     // Start is called before the first frame update
     void Start()
@@ -163,7 +168,7 @@ public class PlayerController : MonoBehaviour
             this.dashInput = true;
         }
 
-        if (!this.attacking)
+        if (!this.attacking && !this.outOfControl)
         {
             if (this.groundChecker.touchingGround)
             {
@@ -203,103 +208,107 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        
+
         var targetVel = new Vector2(this.rb.velocity.x, this.rb.velocity.y);
 
-        if (this.groundChecker.touchingGround && !this.attacking)
+        if (!this.attacking && !this.outOfControl)
         {
-            targetVel.x = this.horizontalInput * this.moveSpeed;
-        }
-        else if (!this.attacking)
-        {
-            if (this.horizontalInput > 0.01f)
+            if (this.groundChecker.touchingGround)
             {
-                if (targetVel.x < -0.1f)
-                {
-                    targetVel.x *= this.slowDownFactorAiring;
-                }
-                else if (targetVel.x < this.horizontalInput * this.moveSpeedAiring)
-                {
-                    targetVel.x = this.horizontalInput * this.moveSpeedAiring;
-                }
+                targetVel.x = this.horizontalInput * this.moveSpeed;
             }
-            else if (this.horizontalInput < -0.01f)
+            else
             {
-                if (targetVel.x > 0.1f)
-                {
-                    targetVel.x *= this.slowDownFactorAiring;
-                }
-                else if (targetVel.x > this.horizontalInput * this.moveSpeedAiring)
-                {
-                    targetVel.x = this.horizontalInput * this.moveSpeedAiring;
-                }
-            }
-        }
-
-        if (this.attackInput && !this.attacking)
-        {
-            this.StartCoroutine(this.CAttack());
-        }
-        this.attackInput = false;
-
-        if (this.dropInput && this.groundChecker.touchingGround && !this.attacking)
-        {
-            this.DropFromPlatfrom();
-        }
-        this.dropInput = false;
-
-        // Jumping
-        if (this.jumpInputTimeout > 0 && !this.attacking)
-        {
-            bool canJumpFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
-            bool canJumpInAir = this.extraAirActionsUsed < this.extraAirActions;
-            if (canJumpFromGround || canJumpInAir)
-            {
-                if (canJumpFromGround)
-                {
-                    this.extraAirActionsUsed = 0;
-                }
-                else
-                {
-                    this.extraAirActionsUsed++;
-                }
-
-                this.jumpInputTimeout = 0;
-
                 if (this.horizontalInput > 0.01f)
                 {
-                    targetVel.x = 3;
+                    if (targetVel.x < -0.1f)
+                    {
+                        targetVel.x *= this.slowDownFactorAiring;
+                    }
+                    else if (targetVel.x < this.horizontalInput * this.moveSpeedAiring)
+                    {
+                        targetVel.x = this.horizontalInput * this.moveSpeedAiring;
+                    }
                 }
                 else if (this.horizontalInput < -0.01f)
                 {
-                    targetVel.x = -3;
+                    if (targetVel.x > 0.1f)
+                    {
+                        targetVel.x *= this.slowDownFactorAiring;
+                    }
+                    else if (targetVel.x > this.horizontalInput * this.moveSpeedAiring)
+                    {
+                        targetVel.x = this.horizontalInput * this.moveSpeedAiring;
+                    }
                 }
-
-                this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
-                this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
             }
-        }
 
-        // Dashing
-        if (this.dashInput && !this.attacking)
-        {
-            bool canDashFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
-            bool canDashInAir = this.extraAirActionsUsed < this.extraAirActions;
-
-            if (canDashFromGround || canDashInAir)
+            if (this.attackInput)
             {
-                if (canDashFromGround)
-                {
-                    this.extraAirActionsUsed = 0;
-                }
-                else
-                {
-                    this.extraAirActionsUsed++;
-                }
+                this.StartCoroutine(this.CAttack());
+            }
 
-                this.StartCoroutine(this.CDash());
+            if (this.dropInput && this.groundChecker.touchingGround)
+            {
+                this.DropFromPlatfrom();
+            }
+
+            // Jumping
+            if (this.jumpInputTimeout > 0)
+            {
+                bool canJumpFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
+                bool canJumpInAir = this.extraAirActionsUsed < this.extraAirActions;
+                if (canJumpFromGround || canJumpInAir)
+                {
+                    if (canJumpFromGround)
+                    {
+                        this.extraAirActionsUsed = 0;
+                    }
+                    else
+                    {
+                        this.extraAirActionsUsed++;
+                    }
+
+                    this.jumpInputTimeout = 0;
+
+                    if (this.horizontalInput > 0.01f)
+                    {
+                        targetVel.x = 3;
+                    }
+                    else if (this.horizontalInput < -0.01f)
+                    {
+                        targetVel.x = -3;
+                    }
+
+                    this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
+                    this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
+                }
+            }
+
+            // Dashing
+            if (this.dashInput)
+            {
+                bool canDashFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
+                bool canDashInAir = this.extraAirActionsUsed < this.extraAirActions;
+
+                if (canDashFromGround || canDashInAir)
+                {
+                    if (canDashFromGround)
+                    {
+                        this.extraAirActionsUsed = 0;
+                    }
+                    else
+                    {
+                        this.extraAirActionsUsed++;
+                    }
+
+                    this.StartCoroutine(this.CDash());
+                }
             }
         }
+
+        this.attackInput = false;
+        this.dropInput = false;
         this.dashInput = false;
 
         // Higher gravity when falling
@@ -319,7 +328,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //this.rb.velocity = targetVel;
-        if (!this.attacking)
+        if (!this.attacking && !this.outOfControl)
         {
             this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
         }
@@ -333,6 +342,7 @@ public class PlayerController : MonoBehaviour
             {
                 this.attacking = false;
             }
+            this.StartCoroutine(this.CKnockback());
         }
     }
 
@@ -357,7 +367,7 @@ public class PlayerController : MonoBehaviour
         laser.transform.LookAt(mousePos);
 
         laser.Buildup(this.laserBuildupTime);
-        
+
         for (float time = 0; time < this.laserBuildupTime; time += Time.deltaTime)
         {
             if (!this.attacking)
@@ -367,7 +377,7 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
-      
+
         laser.SetLaserWidth(0.06f);
         laser.Disappear(this.laserDisappearTime);
 
@@ -380,7 +390,7 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
-        
+
         Object.Destroy(laser.gameObject);
         this.rb.bodyType = RigidbodyType2D.Dynamic;
         this.attacking = false;
@@ -391,6 +401,27 @@ public class PlayerController : MonoBehaviour
         Object.Destroy(laser.gameObject);
         this.rb.bodyType = RigidbodyType2D.Dynamic;
         this.attacking = false;
+    }
+
+    private IEnumerator CKnockback()
+    {
+        foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+        {
+            platform.DeactivateCollider();
+        }
+
+        this.outOfControl = true;
+
+        this.rb.AddForce(Vector2.up * 0.5f * this.jumpVelocity, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(this.knockbackTime);
+
+        this.outOfControl = false;
+
+        foreach (Platform platform in Object.FindObjectsOfType<Platform>())
+        {
+            platform.ActivateCollider();
+        }
+        yield return null;
     }
 
     private IEnumerator CDeath()
