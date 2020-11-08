@@ -15,6 +15,12 @@ public class EnemyController : MonoBehaviour
     private MusicController musicController;
 
     [SerializeField]
+    private Enemy enemy;
+
+    [SerializeField]
+    private Rigidbody2D rb;
+    
+    [SerializeField]
     private Border border;
 
     [SerializeField]
@@ -64,6 +70,8 @@ public class EnemyController : MonoBehaviour
 
     private bool forcePoisonAttack = false;
 
+    private bool died = false;
+
     //private float timer = 0;
 
     void Start()
@@ -73,6 +81,16 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if (this.enemy.health <= 0)
+        {
+            if (!this.died)
+            {
+                this.died = true;
+                this.StartCoroutine(this.CDeath());
+            }
+
+            return;
+        }
     }
 
     private void SetState(State state)
@@ -280,6 +298,18 @@ public class EnemyController : MonoBehaviour
         {
             this.SetState(State.DigIn);
         }
+    }
+    
+    private IEnumerator CDeath()
+    {
+        this.rb.bodyType = RigidbodyType2D.Dynamic;
+        this.rb.constraints = RigidbodyConstraints2D.None;
+        this.rb.angularVelocity = 1;
+        this.rb.drag = 0.5f;
+        this.rb.velocity = 0.5f * this.rb.velocity;
+        this.musicController.OnWin();
+        yield return new WaitForSeconds(5f);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private PoisonBullet ShootPoisonBullet(Vector3 targetPosition)

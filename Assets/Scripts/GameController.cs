@@ -11,6 +11,12 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private Volume volume;
 
+    [SerializeField]
+    private Player player;
+
+    [SerializeField]
+    private Enemy enemy;
+
     private UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
 
     public void ScreenEffect1()
@@ -73,5 +79,10 @@ public class GameController : MonoBehaviour
                 this.camera.transform.localEulerAngles = angles;
             }
         }
+    }
+
+    void OnGUI()
+    {
+        GUI.Box(new Rect(0, 0, 200, 30), "Player: " + this.player.health + ", Enemy: " + this.enemy.health);
     }
 }

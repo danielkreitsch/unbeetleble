@@ -10,11 +10,11 @@ public class MusicController : MonoBehaviour
     [SerializeField]
     private AudioSource battleAudio;
 
-    private bool died = false;
+    private bool gameEnded = false;
 
     public void SetVolume(float standard, float battle)
     {
-        if (this.died)
+        if (this.gameEnded)
         {
             return;
         }
@@ -51,13 +51,30 @@ public class MusicController : MonoBehaviour
 
     private IEnumerator COnDeath()
     {
-        this.died = true;
+        this.gameEnded = true;
         for (float t = 0; t < 1; t += 0.5f * Time.deltaTime)
         {
             this.standardAudio.volume = Mathf.Min(this.standardAudio.volume, 1 - t);
             this.battleAudio.volume = Mathf.Max(this.battleAudio.volume, t);
             this.battleAudio.pitch = 1 - t;
             yield return new  WaitForEndOfFrame();
+        }
+    }
+
+    public void OnWin()
+    {
+        this.StartCoroutine(this.COnWin());
+    }
+
+    private IEnumerator COnWin()
+    {
+        this.gameEnded = true;
+        for (float t = 0; t < 1; t += 0.5f * Time.deltaTime)
+        {
+            this.battleAudio.volume = Mathf.Min(this.standardAudio.volume, 1 - t);
+            this.standardAudio.volume = Mathf.Max(this.battleAudio.volume, t);
+            this.standardAudio.pitch = 1 + 2 * t;
+            yield return new WaitForEndOfFrame();
         }
     }
 }

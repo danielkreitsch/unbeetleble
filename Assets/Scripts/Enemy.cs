@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public void OnDamageReceive(int damage)
     {
         this.health -= damage;
-        Debug.Log("Player got " + damage + " damage, health now: " + this.health);
+        Debug.Log("Enemy got " + damage + " damage, health now: " + this.health);
     }
+    
+    
 }

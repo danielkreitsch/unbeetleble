@@ -34,11 +34,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnGUI()
-    {
-        GUI.Box(new Rect(0, 0, 100, 30), "HP: " + this.health);
-    }
-
     public void OnPoisonCollision()
     {
         this.poisonTrigger = true;
