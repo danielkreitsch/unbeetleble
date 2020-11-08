@@ -9,38 +9,68 @@ public class MusicController : MonoBehaviour
     
     [SerializeField]
     private AudioSource bassdrum;
+    
+    [SerializeField]
+    private AudioSource flutes;
+    
+    [SerializeField]
+    private AudioSource frenchHorns;
+    
+    [SerializeField]
+    private AudioSource fullStringSet;
+    
+    [SerializeField]
+    private AudioSource ghettoDrums;
+    
+    [SerializeField]
+    private AudioSource maleChoir;
+    
+    [SerializeField]
+    private AudioSource orchPercussion;
 
     private bool gameEnded = false;
 
-    public void SetVolume(float standard, float battle)
+    private float silenceVolume = 1;
+    private float battleVolume = 0;
+
+    public void SetVolume(float silence, float battle)
     {
         if (this.gameEnded)
         {
             return;
         }
-        
-        this.silence.volume = standard;
+
+        this.silenceVolume = silence;
+        this.silence.volume = silence;
+
+        this.battleVolume = battle;
         this.bassdrum.volume = battle;
+        this.flutes.volume = battle;
+        this.frenchHorns.volume = battle;
+        this.fullStringSet.volume = battle;
+        this.ghettoDrums.volume = battle;
+        this.maleChoir.volume = battle;
+        this.orchPercussion.volume = battle;
     }
 
-    public void FadeToVolume(float standard, float battle, float time)
+    public void FadeToVolume(float silence, float battle, float time)
     {
-        this.StartCoroutine(this.CFadeToVolume(standard, battle, time));
+        this.StartCoroutine(this.CFadeToVolume(silence, battle, time));
     }
 
-    private IEnumerator CFadeToVolume(float standard, float battle, float time)
+    private IEnumerator CFadeToVolume(float silence, float battle, float time)
     {
-        float startStandard = this.silence.volume;
-        float startBattle = this.bassdrum.volume;
+        float startSilence = this.silenceVolume;
+        float startBattle = this.battleVolume;
 
         for (float t = 0; t < time; t += Time.deltaTime)
         {
-            this.silence.volume = startStandard + (standard - startStandard) * (t / time);
-            this.bassdrum.volume = startBattle + (battle - startBattle) * (t / time);
+            this.SetVolume(startSilence + (silence - startSilence) * (t / time),
+                startBattle + (battle - startBattle) * (t / time));
             yield return new  WaitForEndOfFrame();
         }
 
-        this.silence.volume = standard;
+        this.silence.volume = silence;
         this.bassdrum.volume = battle;
     }
 

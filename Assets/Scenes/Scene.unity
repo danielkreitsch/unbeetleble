@@ -276,6 +276,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23de6c6d026fa944abcb4173f2d8bfe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &273300111 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 273300111, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!82 &312992856 stripped
 AudioSource:
   m_CorrespondingSourceObject: {fileID: 312992856, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
@@ -355,6 +360,16 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0626367e5559c043abc3230804a3553, type: 3}
   m_PrefabInstance: {fileID: 1405868159}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &500175629 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 500175629, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &585011517 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 585011517, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &674074869 stripped
 GameObject:
@@ -898,6 +913,11 @@ Transform:
   m_Father: {fileID: 224007562}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1238405390 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1238405390, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1242698835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,6 +1026,11 @@ Transform:
   m_Father: {fileID: 224007562}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1262963896 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1262963896, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1405868159
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1393,6 +1418,11 @@ Transform:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b7a2fabc4b794b643abdad634570a3c3, type: 3}
   m_PrefabInstance: {fileID: 700365044}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1926097553 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1926097553, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+  m_PrefabInstance: {fileID: 679814993886981593}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1967074630 stripped
 Transform:
@@ -1957,6 +1987,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: flutes
+      value: 
+      objectReference: {fileID: 1926097553}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
       propertyPath: silence
       value: 
       objectReference: {fileID: 1641743425}
@@ -1964,6 +1998,26 @@ PrefabInstance:
       propertyPath: bassdrum
       value: 
       objectReference: {fileID: 312992856}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: maleChoir
+      value: 
+      objectReference: {fileID: 1262963896}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: frenchHorns
+      value: 
+      objectReference: {fileID: 500175629}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: ghettoDrums
+      value: 
+      objectReference: {fileID: 1238405390}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: fullStringSet
+      value: 
+      objectReference: {fileID: 585011517}
+    - target: {fileID: 679814993913409597, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
+      propertyPath: orchPercussion
+      value: 
+      objectReference: {fileID: 273300111}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 99091a86ae1be8e469ed2e84fb82ce74, type: 3}
 --- !u!1001 &806207096989571151
