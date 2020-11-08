@@ -20,11 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DarkerMaterial.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/BeetleHead.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Textures/BeetleHead.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,9 +88,9 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/MusicController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
         <option value="$PROJECT_DIR$/Assets/DarkerMaterial.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Player.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
       </list>
     </option>
   </component>
@@ -136,7 +137,7 @@
       <workItem from="1604749467705" duration="26247000" />
       <workItem from="1604784227831" duration="28862000" />
       <workItem from="1604815311732" duration="1556000" />
-      <workItem from="1604835359022" duration="11955000" />
+      <workItem from="1604835359022" duration="12800000" />
     </task>
     <servers />
   </component>
@@ -171,10 +172,10 @@
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
     <state x="93" y="93" width="2008" height="1008" maximized="true" key="VCS.FileHistoryDialog/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604816116916" />
-    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604847792150">
+    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604848521253">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604847792150" />
+    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604848521253" />
     <state x="760" y="264" width="672" height="678" key="search.everywhere.popup" timestamp="1604811688906">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>

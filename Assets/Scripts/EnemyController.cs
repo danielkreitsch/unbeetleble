@@ -258,17 +258,24 @@ public class EnemyController : MonoBehaviour
             if (this.forcePoisonAttack)
             {
                 this.forcePoisonAttack = false;
-                this.SetState(State.Attack2);
-            }
-            else
-            {
-                if (Random.Range(0, 2) == 0)
+                if (Random.Range(0, 3) == 0)
                 {
-                    this.SetState(State.Attack1);
+                    this.SetState(State.Attack2);
                 }
                 else
                 {
+                    this.SetState(State.Attack1);
+                }
+            }
+            else
+            {
+                if (Random.Range(0, 6) == 0)
+                {
                     this.SetState(State.Attack2);
+                }
+                else
+                {
+                    this.SetState(State.Attack1);
                 }
             }
         }
@@ -293,14 +300,7 @@ public class EnemyController : MonoBehaviour
         // Next state
         if (this.attackCounter < this.maxAttackAttempts)
         {
-            if (Random.Range(0, 3) == 0)
-            {
-                this.SetState(State.Attack2);
-            }
-            else
-            {
-                this.SetState(State.Attack1);
-            }
+            this.SetState(State.Attack1);
         }
         else
         {
