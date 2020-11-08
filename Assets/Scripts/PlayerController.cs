@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        this.animator.SetFloat("WalkSpeed", this.rb.velocity.x);//Mathf.Abs(this.horizontalInput));
+        this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.rb.velocity.x));
         this.animator.SetBool("TouchingGround", this.groundChecker.touchingGround);
     }
 

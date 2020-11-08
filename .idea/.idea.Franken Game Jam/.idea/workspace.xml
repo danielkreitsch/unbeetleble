@@ -20,11 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/FrankenGameJamLogo.mat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Materials/FrankenGameJamLogo.mat.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Textures/FrankenGameJamLogo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Textures/FrankenGameJamLogo.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Player.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Models/Player.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Player.fbx.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Player.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
     </list>
@@ -128,7 +127,7 @@
       <workItem from="1604749467705" duration="26247000" />
       <workItem from="1604784227831" duration="28862000" />
       <workItem from="1604815311732" duration="1556000" />
-      <workItem from="1604835359022" duration="1125000" />
+      <workItem from="1604835359022" duration="1950000" />
     </task>
     <servers />
   </component>
