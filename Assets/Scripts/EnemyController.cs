@@ -62,9 +62,12 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private int maxAttackAttempts;
 
+    [SerializeField]
+    private Collider hitboxCollider;
+
     public float startTime;
 
-    private State state;
+    public State state;
     private State previousState;
 
     private DigParticles digParticles;
@@ -147,6 +150,7 @@ public class EnemyController : MonoBehaviour
     {
         this.attackCounter = 0;
 
+        this.hitboxCollider.enabled = false;
         this.model.gameObject.SetActive(false);
 
         this.transform.position = this.GetPositionInHoleEntry(this.GetRandomHoleEntry());
@@ -170,6 +174,7 @@ public class EnemyController : MonoBehaviour
         
         this.digParticles.Remove();
         this.model.gameObject.SetActive(true);
+        this.hitboxCollider.enabled = true;
 
         // Next state
         if (Random.Range(0, 1) == 0)
@@ -278,7 +283,7 @@ public class EnemyController : MonoBehaviour
         for (int y = 2; y >= 0; y--)
         {
             this.ShootPoisonBullet(this.target.transform.position + Vector3.up * y * 3 + new Vector3(0, 0, -1));
-            yield return new WaitForSeconds(5.5f);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -425,7 +430,7 @@ public class EnemyController : MonoBehaviour
         return Vector3.zero;
     }
 
-    enum State
+    public enum State
     {
         InEarth,
         IdleOutside,
