@@ -20,10 +20,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Poison.mat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Materials/Prototype/Poison.mat.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/PoisonBullet.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/PoisonBullet.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Laser.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Laser.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/PoisonBullet.prefab" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/PoisonBullet.prefab.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/InvokeUtility.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Player.controller" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/MusicController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MusicController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene/Laser Profile.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene/Laser Profile.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,8 +63,10 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/LivingEntity.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/DigParticles.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/PoisonBullet.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/MusicController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InvokeUtility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Border.cs" root0="FORCE_HIGHLIGHTING" />
@@ -60,17 +79,19 @@
         <option value="$PROJECT_DIR$/Assets/Scripts/Facing.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/HoleEntry.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Border.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Player.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/LivingEntity.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Platform.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/GameController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/CameraController.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/DigParticles.cs" />
         <option value="$PROJECT_DIR$/Assets/MusicController.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/InvokeUtility.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/GroundChecker.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" />
+        <option value="$PROJECT_DIR$/Assets/PoisonBullet.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Player.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" />
       </list>
     </option>
   </component>
@@ -115,7 +136,7 @@
       <workItem from="1604700295285" duration="11916000" />
       <workItem from="1604723852785" duration="3734000" />
       <workItem from="1604749467705" duration="26247000" />
-      <workItem from="1604784227831" duration="9152000" />
+      <workItem from="1604784227831" duration="25652000" />
     </task>
     <servers />
   </component>
@@ -150,13 +171,13 @@
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
     <state x="93" y="93" width="2008" height="1008" key="VCS.FileHistoryDialog/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604771437268" />
-    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604793293170">
+    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604804673549">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604793293170" />
-    <state x="760" y="264" width="672" height="678" key="search.everywhere.popup" timestamp="1604775860913">
+    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604804673549" />
+    <state x="760" y="264" width="672" height="678" key="search.everywhere.popup" timestamp="1604811688906">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="760" y="264" width="672" height="678" key="search.everywhere.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604775860913" />
+    <state x="760" y="264" width="672" height="678" key="search.everywhere.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604811688906" />
   </component>
 </project>

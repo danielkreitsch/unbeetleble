@@ -23,6 +23,7 @@
             </e>
           </e>
         </e>
+        <e p="PoisonBullet.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="Border.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
@@ -33,6 +34,7 @@
           <e p="GameController.cs" t="Include" />
           <e p="GroundChecker.cs" t="Include" />
           <e p="HoleEntry.cs" t="Include" />
+          <e p="InvokeUtility.cs" t="Include" />
           <e p="LivingEntity.cs" t="Include" />
           <e p="Platform.cs" t="Include" />
           <e p="Player.cs" t="Include" />

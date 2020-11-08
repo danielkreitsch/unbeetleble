@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using DefaultNamespace;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
@@ -11,7 +13,7 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private MusicController musicController;
-    
+
     [SerializeField]
     private Border border;
 
@@ -20,6 +22,9 @@ public class EnemyController : MonoBehaviour
 
     [SerializeField]
     private GameObject digParticlesPrefab;
+
+    [SerializeField]
+    private GameObject poisonBulletPrefab;
 
     [SerializeField]
     private Transform model;
@@ -32,6 +37,15 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private float jumpSpeed;
 
+    [SerializeField]
+    private string jumpMoveEaseType;
+    
+    [SerializeField]
+    private string jumpRotateStartEaseType;
+    
+    [SerializeField]
+    private string jumpRotateEndEaseType;
+    
     [Header("Attacking")]
     [SerializeField]
     private float attackRange;
@@ -40,6 +54,7 @@ public class EnemyController : MonoBehaviour
     private int maxAttackAttempts;
 
     private State state;
+    private State previousState;
 
     private DigParticles digParticles;
 
@@ -49,7 +64,7 @@ public class EnemyController : MonoBehaviour
 
     void Start()
     {
-        this.SetState(State.DigOut);
+        this.SetState(State.InEarth);
     }
 
     void Update()
@@ -58,6 +73,7 @@ public class EnemyController : MonoBehaviour
 
     private void SetState(State state)
     {
+        this.previousState = this.state;
         this.state = state;
 
         Debug.Log("State: " + state);
@@ -82,29 +98,34 @@ public class EnemyController : MonoBehaviour
         {
             this.StartCoroutine(this.State_Attack1());
         }
+        else if (state == State.Attack2)
+        {
+            this.StartCoroutine(this.State_Attack2());
+        }
     }
 
     IEnumerator State_DigIn()
     {
-        for (float i = 0; i < 1; i += Time.deltaTime)
+        this.musicController.FadeToVolume(0.8f, 0.2f, 2);
+
+        for (float time = 0; time < 1; time += 4 * Time.deltaTime)
         {
-            this.model.transform.localPosition = new Vector3(0, -0.65f - i * (1.15f - 0.65f), 0);
+            this.model.transform.localPosition = new Vector3(0, -1.1f - time, 0);
             yield return new WaitForEndOfFrame();
         }
-        this.model.transform.localPosition = new Vector3(0, -1.15f, 0);
+        this.model.transform.localPosition = new Vector3(0, -2.1f, 0);
+
         this.SetState(State.InEarth);
     }
 
     IEnumerator State_InEarth()
     {
-        this.musicController.SetVolume(1, 0);
-        
         this.attackCounter = 0;
 
         this.model.gameObject.SetActive(false);
 
-        this.TeleportToHoleEntry(this.GetRandomHoleEntry());
-        yield return new WaitForSeconds(2);
+        this.transform.position = this.GetPositionInHoleEntry(this.GetRandomHoleEntry());
+        yield return new WaitForSeconds(1);
 
         // Next state
         this.SetState(State.DigOut);
@@ -112,8 +133,6 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_DigOut()
     {
-        this.musicController.SetVolume(1, 0);
-        
         var holeEntry = this.GetRandomHoleEntry();
         this.TeleportToHoleEntry(holeEntry);
 
@@ -161,18 +180,26 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator State_Attack1()
     {
+        if (this.previousState == State.DigOut)
+        {
+            this.musicController.FadeToVolume(0, 1, 2);
+        }
+
         HoleEntry holeEntry = this.GetHoleEntryBehindTarget();
-        Vector3 holeEntryPosition = new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
-        Vector3 targetPosition = holeEntryPosition + (holeEntryPosition - this.transform.position).normalized * 1;
+        Vector3 targetPosition = this.GetPositionOnHoleEntry(holeEntry);
+        Vector3 targetEulerAngles = this.GetEulerAnglesOnHoleEntry(holeEntry);
+
         float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
 
-        this.transform.LookAt(targetPosition);
-
         float jumpTime = distanceToTarget / this.jumpSpeed;
-        iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", jumpTime, "easeType", "linear"));
-        
-        this.musicController.SetVolume(0, 1);
+        iTween.MoveTo(this.gameObject, iTween.Hash("position", targetPosition, "time", jumpTime, "easeType", this.jumpMoveEaseType));
+        //iTween.RotateTo(this.gameObject, iTween.Hash("rotation", targetEulerAngles, "time", jumpTime, "easeType", this.jumpRotateEaseType));
+        iTween.LookTo(this.gameObject, iTween.Hash("lookTarget", targetPosition, "time", 0.15f * jumpTime, "easeType", this.jumpRotateStartEaseType));
+        //this.transform.eulerAngles = halfTargetEulerAngles;
+        this.Invoke(() => iTween.RotateTo(this.gameObject, iTween.Hash("rotation", targetEulerAngles, "time", 0.15f * jumpTime, "easeType", this.jumpRotateEndEaseType)), 0.95f * jumpTime);
 
+        yield return new WaitForSeconds(0.05f);
+        
         bool attacked = false;
 
         for (float time = 0; time < jumpTime; time += Time.deltaTime)
@@ -189,52 +216,66 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        /*for (float timeout = 0; timeout < 5; timeout += Time.deltaTime) // Cancel loop after 5 seconds
-        {
-            float distanceToTarget = Vector2.Distance(this.transform.position, targetPosition);
-            float distanceToPlayer = Vector2.Distance(this.transform.position, this.target.transform.position);
-            float progress = 1 - distanceToTarget / startDistanceToTarget;
+        this.transform.localEulerAngles = this.GetEulerAnglesOnHoleEntry(holeEntry);
 
-            if (!attacked && distanceToPlayer < 1.5f)
-            {
-                attacked = true;
-                this.target.ReceiveDamage(3);
-                this.gameController.ScreenShake();
-            }
-
-            if (distanceToTarget < 0.05f)
-            {
-                break;
-            }
-
-           // iTween.MoveTo();
-            if (progress < 0.9f)
-            {
-                this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 2);
-            }
-            else
-            {
-                this.transform.position = Vector3.Lerp(this.transform.position, targetPosition, Time.deltaTime * 5);
-            }
-
-            yield return new WaitForEndOfFrame();
-        }*/
-
-        this.TeleportToHoleEntry(holeEntry);
-
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
 
         this.attackCounter += 1;
 
         // Next state
-        if (this.attackCounter < this.maxAttackAttempts && !attacked)
+        if (this.attackCounter < this.maxAttackAttempts)
         {
-            this.SetState(State.Attack1);
+            if (Random.Range(0, 2) == 0)
+            {
+                this.SetState(State.Attack1);
+            }
+            else
+            {
+                this.SetState(State.Attack2);
+            }
         }
         else
         {
-            this.SetState(State.InEarth);
+            this.SetState(State.DigIn);
         }
+    }
+
+    IEnumerator State_Attack2()
+    {
+        for (int y = 2; y >= 0; y--)
+        {
+            this.ShootPoisonBullet(this.target.transform.position + Vector3.up * y * 3 + new Vector3(0, 0, -1));
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        yield return new WaitForSeconds(0.7f);
+        
+        this.attackCounter += 1;
+
+        // Next state
+        if (this.attackCounter < this.maxAttackAttempts)
+        {
+            if (Random.Range(0, 4) == 0)
+            {
+                this.SetState(State.Attack1);
+            }
+            else
+            {
+                this.SetState(State.Attack2);
+            }
+        }
+        else
+        {
+            this.SetState(State.DigIn);
+        }
+    }
+
+    private PoisonBullet ShootPoisonBullet(Vector3 targetPosition)
+    {
+        GameObject bulletObj = Object.Instantiate(this.poisonBulletPrefab, this.transform.position, Quaternion.identity);
+        PoisonBullet bullet = bulletObj.GetComponent<PoisonBullet>();
+        bullet.ShootTo(targetPosition);
+        return bullet;
     }
 
     private DigParticles SpawnDigParticles(Vector3 position, float intensity)
@@ -247,8 +288,28 @@ public class EnemyController : MonoBehaviour
 
     private HoleEntry GetHoleEntryBehindTarget()
     {
-        var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.transform.position, 1000, this.border.layer);
+        var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.raycastOrigin.position, 1000, this.border.layer);
 
+        if (Vector2.Distance(hit.point, this.transform.position) < 10)
+        {
+            HoleEntry furthestHoleEntry = null;
+            float furthestHolyEntryDistance = 0;
+
+            foreach (HoleEntry holeEntry in this.border.holeEntries)
+            {
+                float holyEntryDistance = Vector2.Distance(this.transform.position, holeEntry.position)
+                    + Vector2.Distance(this.target.transform.position, holeEntry.position);
+
+                if (furthestHoleEntry == null || holyEntryDistance > furthestHolyEntryDistance)
+                {
+                    furthestHoleEntry = holeEntry;
+                    furthestHolyEntryDistance = holyEntryDistance;
+                }
+            }
+
+            return furthestHoleEntry;
+        }
+        
         if (hit.collider == null)
         {
             Debug.LogError("Border behind player not found.");
@@ -266,24 +327,54 @@ public class EnemyController : MonoBehaviour
     private void TeleportToHoleEntry(HoleEntry holeEntry)
     {
         this.transform.position = holeEntry.position;
-        this.model.localPosition = new Vector3(0, -1.15f, 0);
+        this.model.localPosition = new Vector3(0, -1.1f, 0);
+    }
 
+    private Vector3 GetPositionInHoleEntry(HoleEntry holeEntry)
+    {
+        return new Vector3(holeEntry.position.x, holeEntry.position.y, 0);
+    }
+
+    private Vector3 GetPositionOnHoleEntry(HoleEntry holeEntry)
+    {
         if (holeEntry.facing == Facing.Top)
         {
-            this.transform.localEulerAngles = new Vector3(0, -180, 0);
+            return new Vector3(holeEntry.position.x, holeEntry.position.y + 1, 0);
         }
-        else if (holeEntry.facing == Facing.Bottom)
+        if (holeEntry.facing == Facing.Bottom)
         {
-            this.transform.localEulerAngles = new Vector3(0, -180, 180);
+            return new Vector3(holeEntry.position.x, holeEntry.position.y - 1, 0);
         }
-        else if (holeEntry.facing == Facing.Left)
+        if (holeEntry.facing == Facing.Left)
         {
-            this.transform.localEulerAngles = new Vector3(0, -180, -90);
+            return new Vector3(holeEntry.position.x - 1, holeEntry.position.y, 0);
         }
-        else if (holeEntry.facing == Facing.Right)
+        if (holeEntry.facing == Facing.Right)
         {
-            this.transform.localEulerAngles = new Vector3(0, -180, 90);
+            return new Vector3(holeEntry.position.x + 1, holeEntry.position.y + 1, 0);
         }
+        return Vector3.zero;
+    }
+
+    private Vector3 GetEulerAnglesOnHoleEntry(HoleEntry holeEntry)
+    {
+        if (holeEntry.facing == Facing.Top)
+        {
+            return new Vector3(0, -180, 0);
+        }
+        if (holeEntry.facing == Facing.Bottom)
+        {
+            return new Vector3(0, -180, 180);
+        }
+        if (holeEntry.facing == Facing.Left)
+        {
+            return new Vector3(0, -180, -90);
+        }
+        if (holeEntry.facing == Facing.Right)
+        {
+            return new Vector3(0, -180, 90);
+        }
+        return Vector3.zero;
     }
 
     enum State
@@ -293,6 +384,6 @@ public class EnemyController : MonoBehaviour
         DigIn,
         DigOut,
         Attack1,
-        Jump
+        Attack2
     }
 }

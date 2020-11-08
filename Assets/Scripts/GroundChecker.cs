@@ -42,6 +42,7 @@ public class GroundChecker : MonoBehaviour
     {
         this.touchingGroundBefore = this.touchingGround;
         this.touchingGround = false;
+        this.touchingObj = null;
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(new Vector2(this.pivot.position.x, this.pivot.position.y) + Vector2.up * this.offsetY, this.radius, this.layer);
         for (int i = 0; i < colliders.Length; i++)

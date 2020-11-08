@@ -2,11 +2,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField]
+    private Player player;
+    
     [SerializeField]
     private Rigidbody2D rb = default;
 
@@ -18,12 +22,15 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Animator animator;
-    
+
     [SerializeField]
     private GroundChecker groundChecker = default;
 
     [SerializeField]
     private LayerMask borderLayer;
+
+    [SerializeField]
+    private GameObject laserPrefab;
 
     [Header("Movement")]
     [SerializeField]
@@ -89,6 +96,7 @@ public class PlayerController : MonoBehaviour
 
     private bool lookRight;
     private int extraAirActionsUsed = 0;
+    private bool died = false;
 
     // Start is called before the first frame update
     void Start()
@@ -98,6 +106,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (this.player.health <= 0)
+        {
+            if (!this.died)
+            {
+                this.died = true;
+                this.StartCoroutine(this.CDeath());
+            }
+            
+            return;
+        }
+        
         this.horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (this.jumpInputTimeout > 0)
@@ -125,26 +144,28 @@ public class PlayerController : MonoBehaviour
             if (!this.lookRight && this.horizontalInput > 0.01f)
             {
                 this.lookRight = true;
-                this.model.eulerAngles = new Vector3(0, 90 + 17.5f, 0);
+                iTween.RotateTo(this.model.gameObject, new Vector3(0, 90 + 17.5f, 0), 0.2f);
             }
             else if (this.lookRight && this.horizontalInput < -0.01f)
             {
                 this.lookRight = false;
-                this.model.eulerAngles = new Vector3(0, 270 - 17.5f, 0);
+                iTween.RotateTo(this.model.gameObject, new Vector3(0, 270 - 17.5f, 0), 0.2f);
             }
         }
         else
         {
-            /*if (this.rb.velocity.x > 0.1f)
+            if (!this.lookRight && this.rb.velocity.x > 0.01f)
             {
-                this.model.eulerAngles = new Vector3(0, 90 + 17.5f, 0);
+                this.lookRight = true;
+                iTween.RotateTo(this.model.gameObject,new Vector3(0, 90 + 17.5f, 0), 0.2f);
             }
-            else if (this.rb.velocity.x < -0.1f)
+            else if (this.lookRight && this.rb.velocity.x < -0.01f)
             {
-                this.model.eulerAngles = new Vector3(0, 270 - 17.5f, 0);
-            }*/
+                this.lookRight = false;
+                iTween.RotateTo(this.model.gameObject,new Vector3(0, 270 - 17.5f, 0), 0.2f);
+            }
         }
-        
+
         this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.horizontalInput));
         this.animator.SetBool("TouchingGround", this.groundChecker.touchingGround);
     }
@@ -183,12 +204,9 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (this.jumpInputTimeout > 0 && this.dropInput)
+        if (this.dropInput && this.groundChecker.touchingGround)
         {
-            if (this.groundChecker.touchingGround)
-            {
-                this.DropFromPlatfrom();
-            }
+            this.DropFromPlatfrom();
         }
         this.dropInput = false;
 
@@ -264,6 +282,14 @@ public class PlayerController : MonoBehaviour
 
         //this.rb.velocity = targetVel;
         this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
+    }
+
+    private IEnumerator CDeath()
+    {
+        this.rb.constraints = RigidbodyConstraints2D.None;
+        this.rb.angularVelocity = 1;
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private IEnumerator CDash()
