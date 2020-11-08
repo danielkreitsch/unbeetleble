@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private Player player;
-    
+
     [SerializeField]
     private Rigidbody2D rb = default;
 
@@ -92,8 +92,10 @@ public class PlayerController : MonoBehaviour
     private float horizontalInput = 0;
     private float jumpInputTimeout = 0;
     private bool dropInput = false;
+    private bool attackInput = false;
     private bool dashInput = false;
 
+    private bool attacking;
     private bool lookRight;
     private int extraAirActionsUsed = 0;
     private bool died = false;
@@ -113,10 +115,10 @@ public class PlayerController : MonoBehaviour
                 this.died = true;
                 this.StartCoroutine(this.CDeath());
             }
-            
+
             return;
         }
-        
+
         this.horizontalInput = Input.GetAxisRaw("Horizontal");
 
         if (this.jumpInputTimeout > 0)
@@ -134,39 +136,47 @@ public class PlayerController : MonoBehaviour
             this.dropInput = true;
         }
 
+        if (Input.GetButton("Attack"))
+        {
+            this.attackInput = true;
+        }
+
         if (Input.GetButtonDown("Dash"))
         {
             this.dashInput = true;
         }
 
-        if (this.groundChecker.touchingGround)
+        if (!this.attacking)
         {
-            if (!this.lookRight && this.horizontalInput > 0.01f)
+            if (this.groundChecker.touchingGround)
             {
-                this.lookRight = true;
-                iTween.RotateTo(this.model.gameObject, new Vector3(0, 90 + 17.5f, 0), 0.2f);
+                if (!this.lookRight && this.horizontalInput > 0.01f)
+                {
+                    this.lookRight = true;
+                    iTween.RotateTo(this.model.gameObject, new Vector3(0, 90 + 17.5f, 0), 0.2f);
+                }
+                else if (this.lookRight && this.horizontalInput < -0.01f)
+                {
+                    this.lookRight = false;
+                    iTween.RotateTo(this.model.gameObject, new Vector3(0, 270 - 17.5f, 0), 0.2f);
+                }
             }
-            else if (this.lookRight && this.horizontalInput < -0.01f)
+            else
             {
-                this.lookRight = false;
-                iTween.RotateTo(this.model.gameObject, new Vector3(0, 270 - 17.5f, 0), 0.2f);
-            }
-        }
-        else
-        {
-            if (!this.lookRight && this.rb.velocity.x > 0.01f)
-            {
-                this.lookRight = true;
-                iTween.RotateTo(this.model.gameObject,new Vector3(0, 90 + 17.5f, 0), 0.2f);
-            }
-            else if (this.lookRight && this.rb.velocity.x < -0.01f)
-            {
-                this.lookRight = false;
-                iTween.RotateTo(this.model.gameObject,new Vector3(0, 270 - 17.5f, 0), 0.2f);
+                if (!this.lookRight && this.rb.velocity.x > 0.01f)
+                {
+                    this.lookRight = true;
+                    iTween.RotateTo(this.model.gameObject, new Vector3(0, 90 + 17.5f, 0), 0.2f);
+                }
+                else if (this.lookRight && this.rb.velocity.x < -0.01f)
+                {
+                    this.lookRight = false;
+                    iTween.RotateTo(this.model.gameObject, new Vector3(0, 270 - 17.5f, 0), 0.2f);
+                }
             }
         }
 
-        this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.horizontalInput));
+        this.animator.SetFloat("WalkSpeed", this.rb.velocity.x);//Mathf.Abs(this.horizontalInput));
         this.animator.SetBool("TouchingGround", this.groundChecker.touchingGround);
     }
 
@@ -174,11 +184,11 @@ public class PlayerController : MonoBehaviour
     {
         var targetVel = new Vector2(this.rb.velocity.x, this.rb.velocity.y);
 
-        if (this.groundChecker.touchingGround)
+        if (this.groundChecker.touchingGround && !this.attacking)
         {
             targetVel.x = this.horizontalInput * this.moveSpeed;
         }
-        else
+        else if (!this.attacking)
         {
             if (this.horizontalInput > 0.01f)
             {
@@ -204,14 +214,20 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (this.dropInput && this.groundChecker.touchingGround)
+        if (this.attackInput && !this.attacking && this.groundChecker.touchingGround)
+        {
+            this.StartCoroutine(this.CAttack());
+        }
+        this.attackInput = false;
+
+        if (this.dropInput && this.groundChecker.touchingGround && !this.attacking)
         {
             this.DropFromPlatfrom();
         }
         this.dropInput = false;
 
         // Jumping
-        if (this.jumpInputTimeout > 0)
+        if (this.jumpInputTimeout > 0 && !this.attacking)
         {
             bool canJumpFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
             bool canJumpInAir = this.extraAirActionsUsed < this.extraAirActions;
@@ -243,7 +259,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Dashing
-        if (this.dashInput)
+        if (this.dashInput && !this.attacking)
         {
             bool canDashFromGround = this.groundChecker.touchingGroundTime > this.jumpDelayAfterGrounded && this.rb.velocity.y < 0.00001f;
             bool canDashInAir = this.extraAirActionsUsed < this.extraAirActions;
@@ -282,6 +298,36 @@ public class PlayerController : MonoBehaviour
 
         //this.rb.velocity = targetVel;
         this.rb.velocity = Vector2.SmoothDamp(this.rb.velocity, targetVel, ref this.velocity, this.movementSmoothing);
+    }
+
+    private IEnumerator CAttack()
+    {
+        this.attacking = true;
+        this.rb.velocity = Vector2.zero;
+        this.rb.bodyType = RigidbodyType2D.Static;
+
+        var myPos = this.transform.position;
+
+        GameObject laserObj = Object.Instantiate(this.laserPrefab, myPos, Quaternion.identity);
+        Laser laser = laserObj.GetComponent<Laser>();
+
+        var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        mousePos.z = myPos.z;
+
+        /* var laserDir = (mousePos - myPos).normalized;
+         float angle = Quaternion.Angle(Quaternion.Euler(laserDir), Quaternion.Euler(0, 0, 0));
+         
+         laser.transform.eulerAngles = new Vector3(angle, 90, -90);*/
+        laser.transform.LookAt(mousePos);
+        
+        yield return new WaitForSeconds(1.2f);
+        laser.SetLaserWidth(0.06f);
+        laser.Disappear();
+
+        yield return new WaitForSeconds(0.4f);
+        Object.Destroy(laser.gameObject);
+        this.rb.bodyType = RigidbodyType2D.Dynamic;
+        this.attacking = false;
     }
 
     private IEnumerator CDeath()
