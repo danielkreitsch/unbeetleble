@@ -34,7 +34,7 @@ public class Laser : MonoBehaviour
     
     public void Buildup(float laserBuildupTime)
     {
-        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.008f, "to", 0.003f, "onupdate", "SetLaserWidth", "time", laserBuildupTime, "easeType", this.easeTypeStart));
+        iTween.ValueTo(this.gameObject, iTween.Hash("from", 0f, "to", 0.004f, "onupdate", "SetLaserWidth", "time", laserBuildupTime, "easeType", this.easeTypeStart));
     }
 
     public void Disappear(float time)

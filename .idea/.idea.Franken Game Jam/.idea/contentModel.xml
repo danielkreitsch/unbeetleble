@@ -43,6 +43,7 @@
           <e p="Player.cs" t="Include" />
           <e p="PlayerController.cs" t="Include" />
           <e p="PoisonBullet.cs" t="Include" />
+          <e p="Trail.cs" t="Include" />
         </e>
         <e p="TextMesh Pro" t="Include">
           <e p="Fonts" t="Include">

@@ -7,12 +7,13 @@ public class Player : MonoBehaviour
 {
     public GameController GameController;
     
-    public int health;
+    public float health;
 
     private bool poisonTrigger = false;
     private float poisonCheckTimer = 0;
+    private float poisonTimeout = 0;
 
-    public void OnDamageReceive(int damage)
+    public void OnDamageReceive(float damage)
     {
         this.health = Math.Max(0, this.health - damage);
         Debug.Log("Player got " + damage + " damage, health now: " + this.health);
@@ -25,15 +26,25 @@ public class Player : MonoBehaviour
     void Update()
     {
         this.poisonCheckTimer += Time.deltaTime;
-        if (this.poisonCheckTimer >= 1)
+        if (this.poisonCheckTimer >= 0.1f)
         {
             this.poisonCheckTimer = 0;
             if (this.poisonTrigger)
             {
+                this.poisonTimeout = 0.2f;
                 this.poisonTrigger = false;
-                this.OnDamageReceive(1);
-                
+                this.OnDamageReceive(0.1f);
             }
+        }
+        
+        if (this.poisonTimeout > 0)
+        {
+            this.poisonTimeout -= Time.deltaTime;
+            this.GameController.SetVignette(new Color(0, 5, 0));
+        }
+        else
+        {
+            this.GameController.SetVignette(new Color(0, 0, 0));
         }
     }
 

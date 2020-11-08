@@ -168,7 +168,8 @@ public class EnemyController : MonoBehaviour
         this.digParticles = this.SpawnDigParticles(holeEntry.position, 0.1f);
         yield return new WaitForSeconds(2);
         this.digParticles.SetIntensity(0.3f);
-        yield return new WaitForSeconds(2);
+        this.musicController.PlayDigOut();
+        yield return new WaitForSeconds(2.5f);
         this.digParticles.SetIntensity(1);
         yield return new WaitForSeconds(2);
         
@@ -213,6 +214,7 @@ public class EnemyController : MonoBehaviour
         if (this.previousState == State.DigOut)
         {
             this.musicController.FadeToVolume(0, 1, 2);
+            this.musicController.PlayJumpOut();
         }
 
         HoleEntry holeEntry = this.GetHoleEntryBehindTarget();
@@ -258,7 +260,7 @@ public class EnemyController : MonoBehaviour
             if (this.forcePoisonAttack)
             {
                 this.forcePoisonAttack = false;
-                if (Random.Range(0, 3) == 0)
+                if (Random.Range(0, 2) == 0)
                 {
                     this.SetState(State.Attack2);
                 }
@@ -269,7 +271,7 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
-                if (Random.Range(0, 6) == 0)
+                if (Random.Range(0, 4) == 0)
                 {
                     this.SetState(State.Attack2);
                 }
@@ -293,7 +295,7 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.8f);
         
         this.attackCounter += 1;
 

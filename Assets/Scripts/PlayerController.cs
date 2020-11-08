@@ -9,6 +9,9 @@ using Object = UnityEngine.Object;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
+    private GameObject trailPrefab;
+    
+    [SerializeField]
     private Player player;
 
     [SerializeField]
@@ -16,6 +19,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private Transform model = default;
+
+    [SerializeField]
+    private Transform laserOrigin;
 
     [SerializeField]
     private Collider2D collider;
@@ -80,6 +86,12 @@ public class PlayerController : MonoBehaviour
     private string dashEaseType;
 
     [Header("Attacking")]
+    [SerializeField]
+    private float laserPrepareTime;
+
+    [SerializeField]
+    private float laserSoundDelay;
+    
     [SerializeField]
     private float laserBuildupTime = 1.2f;
 
@@ -200,6 +212,17 @@ public class PlayerController : MonoBehaviour
 
         this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.rb.velocity.x));
         this.animator.SetBool("TouchingGround", this.groundChecker.touchingGround);
+        this.animator.SetBool("Attacking", this.attacking);
+
+        if (!this.attacking && !this.outOfControl)
+        {
+            if (this.attackInput)
+            {
+                this.animator.SetBool("Attacking", true);
+                this.animator.Play("Attack");
+                this.StartCoroutine(this.CAttack());
+            }
+        }
     }
 
     void FixedUpdate()
@@ -242,12 +265,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
             }
-
-            if (this.attackInput)
-            {
-                this.StartCoroutine(this.CAttack());
-            }
-
+            
             if (this.dropInput && this.groundChecker.touchingGround)
             {
                 this.DropFromPlatfrom();
@@ -334,7 +352,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDamageReceive(int damage)
+    public void OnDamageReceive(float damage)
     {
         if (damage > 1)
         {
@@ -353,12 +371,18 @@ public class PlayerController : MonoBehaviour
         this.rb.bodyType = RigidbodyType2D.Static;
 
         var myPos = this.transform.position;
-
-        GameObject laserObj = Object.Instantiate(this.laserPrefab, myPos, Quaternion.identity);
-        Laser laser = laserObj.GetComponent<Laser>();
-
         var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         mousePos.z = myPos.z;
+        
+        this.model.transform.LookAt(mousePos);
+        this.model.transform.eulerAngles = new Vector3(0,    this.model.transform.eulerAngles.y,    this.model.transform.eulerAngles.z);
+
+        yield return new WaitForSeconds(this.laserSoundDelay);
+        this.musicController.PlayLaser();
+        yield return new WaitForSeconds(this.laserPrepareTime - this.laserSoundDelay);
+
+        GameObject laserObj = Object.Instantiate(this.laserPrefab, this.laserOrigin.position, Quaternion.identity);
+        Laser laser = laserObj.GetComponent<Laser>();
 
         /* var laserDir = (mousePos - myPos).normalized;
          float angle = Quaternion.Angle(Quaternion.Euler(laserDir), Quaternion.Euler(0, 0, 0));
@@ -367,12 +391,13 @@ public class PlayerController : MonoBehaviour
         laser.transform.LookAt(mousePos);
 
         laser.Buildup(this.laserBuildupTime);
+        this.musicController.PlayThunder();
 
         for (float time = 0; time < this.laserBuildupTime; time += Time.deltaTime)
         {
             if (!this.attacking)
             {
-                this.CancelAttack(laser);
+                this.CancelAttack(laser, true);
                 yield break;
             }
             yield return null;
@@ -385,7 +410,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!this.attacking)
             {
-                this.CancelAttack(laser);
+                this.CancelAttack(laser, false);
                 yield break;
             }
             yield return null;
@@ -396,8 +421,12 @@ public class PlayerController : MonoBehaviour
         this.attacking = false;
     }
 
-    private void CancelAttack(Laser laser)
+    private void CancelAttack(Laser laser, bool cancelSound)
     {
+        if (cancelSound)
+        {
+            this.musicController.CancelLaserAndThunder();
+        }
         Object.Destroy(laser.gameObject);
         this.rb.bodyType = RigidbodyType2D.Dynamic;
         this.attacking = false;
@@ -437,6 +466,11 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator CDash()
     {
+        var trailObj = Object.Instantiate(this.trailPrefab, this.transform.position, Quaternion.identity);
+        trailObj.transform.parent = this.transform;
+        
+        this.musicController.PlayDash();
+
         var myPos = this.transform.position;
         var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         mousePos.z = myPos.z;
@@ -496,6 +530,9 @@ public class PlayerController : MonoBehaviour
                 this.rb.velocity = this.postDashVelocity * dashDir;
             }
         }
+
+        trailObj.transform.parent = null;
+        trailObj.GetComponent<Trail>().Disappear();
     }
 
     public void DropFromPlatfrom()

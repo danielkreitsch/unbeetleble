@@ -28,6 +28,21 @@ public class MusicController : MonoBehaviour
     [SerializeField]
     private AudioSource orchPercussion;
 
+    [SerializeField]
+    private AudioSource laser;
+    
+    [SerializeField]
+    private AudioSource jumpOut;
+
+    [SerializeField]
+    private AudioSource thunder;
+
+    [SerializeField]
+    private AudioSource dash;
+    
+    [SerializeField]
+    private AudioSource digOut;
+
     private bool gameEnded = false;
 
     private float silenceVolume = 1;
@@ -43,7 +58,16 @@ public class MusicController : MonoBehaviour
         this.flutes.volume = battle;
         this.frenchHorns.volume = battle;
         this.fullStringSet.volume = battle;
-        this.ghettoDrums.volume = battle;
+        if (battle < 0.5f)
+        {
+            this.ghettoDrums.volume = battle - 0.2f;
+            this.orchPercussion.volume = battle - 0.2f;
+        }
+        else
+        {
+            this.ghettoDrums.volume = battle;
+            this.orchPercussion.volume = battle;
+        }
         this.maleChoir.volume = battle;
         this.orchPercussion.volume = battle;
     }
@@ -116,5 +140,36 @@ public class MusicController : MonoBehaviour
             this.SetVolume(1 - t, 0);
             yield return new WaitForEndOfFrame();
         }
+    }
+
+    public void PlayLaser()
+    {
+        this.laser.Play();
+    }
+
+    public void CancelLaserAndThunder()
+    {
+        this.laser.Stop();
+        this.thunder.Stop();
+    }
+
+    public void PlayJumpOut()
+    {
+        this.jumpOut.Play();
+    }
+    
+    public void PlayThunder()
+    {
+        this.thunder.Play();
+    }
+    
+    public void PlayDash()
+    {
+        this.dash.Play();
+    }
+    
+    public void PlayDigOut()
+    {
+        this.digOut.Play();
     }
 }

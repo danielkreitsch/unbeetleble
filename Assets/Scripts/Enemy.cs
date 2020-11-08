@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public int health;
+    public float health;
 
-    public void OnDamageReceive(int damage)
+    public void OnDamageReceive(float damage)
     {
         this.health -= damage;
         Debug.Log("Enemy got " + damage + " damage, health now: " + this.health);

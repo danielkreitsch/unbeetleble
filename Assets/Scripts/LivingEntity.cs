@@ -6,9 +6,9 @@ using UnityEngine.Events;
 public class LivingEntity : MonoBehaviour
 {
     [SerializeField]
-    private UnityEvent<int> damageReceiveEvent;
+    private UnityEvent<float> damageReceiveEvent;
     
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage(float damage)
     {
         this.damageReceiveEvent.Invoke(damage);
     }

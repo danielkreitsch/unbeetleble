@@ -18,6 +18,8 @@ public class GameController : MonoBehaviour
     private Enemy enemy;
 
     private UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
+    
+    private UnityEngine.Rendering.Universal.Vignette vignette;
 
     public void ScreenEffect1()
     {
@@ -27,6 +29,14 @@ public class GameController : MonoBehaviour
     public void ScreenShake()
     {
         this.StartCoroutine(this.CScreenShake());
+    }
+
+    public void SetVignette(Color color)
+    {
+        if (this.volume.profile.TryGet(out this.vignette))
+        {
+            this.vignette.color.Override(this.vignette.color.value + (color - this.vignette.color.value) * 5 * Time.deltaTime);
+        }
     }
 
     private IEnumerator CScreenEffect1()
@@ -83,6 +93,6 @@ public class GameController : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Box(new Rect(0, 0, 200, 30), "Player: " + this.player.health + ", Enemy: " + this.enemy.health);
+        GUI.Box(new Rect(20, 20, 90, 40), "Player: " + this.player.health + "\nEnemy: " + this.enemy.health);
     }
 }
