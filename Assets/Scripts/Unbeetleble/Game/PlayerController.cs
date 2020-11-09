@@ -7,7 +7,6 @@ namespace Unbeetleble.Game
 {
     public class PlayerController : MonoBehaviour
     {
-        [FormerlySerializedAs("trailPrefab")]
         [Header("General")]
         [SerializeField]
         private Player player;
@@ -103,8 +102,7 @@ namespace Unbeetleble.Game
         [Range(0, 25)]
         [SerializeField]
         private float gravityLimit = 0;
-
-        [FormerlySerializedAs("knockbackTime")]
+        
         [Header("Misc")]
         [SerializeField]
         private float knockupTime;
@@ -398,11 +396,6 @@ namespace Unbeetleble.Game
 
             GameObject laserObj = Object.Instantiate(this.laserPrefab, this.laserOrigin.position, Quaternion.identity);
             LaserAttack laserAttack = laserObj.GetComponent<LaserAttack>();
-
-            /* var laserDir = (mousePos - myPos).normalized;
-         float angle = Quaternion.Angle(Quaternion.Euler(laserDir), Quaternion.Euler(0, 0, 0));
-         
-         laser.transform.eulerAngles = new Vector3(angle, 90, -90);*/
             laserAttack.transform.LookAt(mousePos);
 
             laserAttack.Buildup(this.laserBuildupTime);

@@ -212,7 +212,7 @@ namespace Unbeetleble.Game
         {
             if (this.previousState == State.DigOut)
             {
-                this.musicController.FadeToVolume(0, 1, 2);
+                this.musicController.FadeToVolume(0.2f, 1, 1);
                 this.musicController.PlayJumpOut();
             }
 
