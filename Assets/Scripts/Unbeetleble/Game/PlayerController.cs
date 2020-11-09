@@ -208,7 +208,16 @@ namespace Unbeetleble.Game
                 }
             }
 
-            this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.rigidbody.velocity.x));
+            if (!this.attacking && !this.outOfControl && Mathf.Abs(this.horizontalInput) > 0.01f)
+            {
+                this.animator.SetFloat("WalkSpeed", Mathf.Abs(this.rigidbody.velocity.x));
+            }
+            else
+            {
+                this.animator.SetFloat("WalkSpeed", 0);
+            }
+           
+            this.animator.SetFloat("VelocityY", this.rigidbody.velocity.y);
             this.animator.SetBool("TouchingGround", this.groundChecker.TouchingGround);
             this.animator.SetBool("Attacking", this.attacking);
 
