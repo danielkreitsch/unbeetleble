@@ -97,13 +97,16 @@ namespace Unbeetleble.Game
                     this.died = true;
                     this.StartCoroutine(this.CDeath());
                 }
-
-                return;
             }
         }
 
         private void SetState(State state)
         {
+            if (this.died)
+            {
+                return;
+            }
+            
             this.previousState = this.state;
             this.state = state;
 
@@ -356,7 +359,7 @@ namespace Unbeetleble.Game
             if (hit.collider == null)
             {
                 Debug.LogError("Border behind player not found.");
-                return null;
+                return this.border.GetClosestHoleEntry(this.target.transform.position);
             }
 
             return this.border.GetClosestHoleEntry(hit.point);
