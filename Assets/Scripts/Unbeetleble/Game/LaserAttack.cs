@@ -30,16 +30,15 @@ namespace Unbeetleble.Game
         }
 
         private UnityEngine.Rendering.Universal.Bloom bloom;
-
-        // Start is called before the first frame update
+        
         void Start()
         {
-            this.SetLaserWidth(0);
+            this.SetLaserWidth(0.0001f);
         }
 
         public void Buildup(float laserBuildupTime)
         {
-            iTween.ValueTo(this.gameObject, iTween.Hash("from", 0f, "to", 0.004f, "onupdate", "SetLaserWidth", "time", laserBuildupTime, "easeType", this.easeTypeStart));
+            iTween.ValueTo(this.gameObject, iTween.Hash("from", 0.0001f, "to", 0.004f, "onupdate", "SetLaserWidth", "time", laserBuildupTime, "easeType", this.easeTypeStart));
         }
 
         public void Disappear(float time)
