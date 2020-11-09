@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696590d17025be64fb12cdc011fe5813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 2027914370598322199}
-  ps: {fileID: 6759353173706989765}
+  rigidbody: {fileID: 2027914370598322199}
+  particleSystem: {fileID: 6759353173706989765}
   speed: 25
 --- !u!198 &6759353173706989765
 ParticleSystem:
