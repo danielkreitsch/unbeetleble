@@ -1,23 +1,27 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Utility;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class EnemyController : MonoBehaviour
     {
+        [Inject]
+        private DiContainer container;
+        
+        [Inject]
+        private GameController gameController;
+        
+        [Inject]
+        private MusicController musicController;
+        
+        [Inject]
+        private Enemy enemy;
+        
         [Header("References")]
         [SerializeField]
-        private GameController gameController;
-
-        [SerializeField]
-        private MusicController musicController;
-
-        [SerializeField]
         private CameraController cameraController;
-
-        [SerializeField]
-        private Enemy enemy;
 
         [SerializeField]
         private Rigidbody2D rb;
@@ -324,7 +328,8 @@ namespace Unbeetleble.Game
 
         private PoisonBullet ShootPoisonBullet(Vector3 targetPosition)
         {
-            GameObject bulletObj = Object.Instantiate(this.poisonBulletPrefab, this.transform.position, Quaternion.identity);
+            GameObject bulletObj = this.container.InstantiatePrefab(this.poisonBulletPrefab);
+            bulletObj.transform.position = this.transform.position;
             PoisonBullet bullet = bulletObj.GetComponent<PoisonBullet>();
             bullet.ShootTo(targetPosition);
             return bullet;

@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class CameraController : MonoBehaviour
     {
+        [Inject]
+        private new Camera camera;
+        
         [SerializeField]
         private Transform player;
 
@@ -63,7 +67,7 @@ namespace Unbeetleble.Game
         {
             if (this.introDone && !this.gameEnded)
             {
-                var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                var mousePos = this.camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -this.camera.transform.position.z));
                 mousePos.z = 0;
 
                 this.transform.position = Vector3.Lerp(this.transform.position,

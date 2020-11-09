@@ -1,11 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class Player : MonoBehaviour
     {
-        public GameController GameController;
+        [Inject]
+        private GameController gameController;
 
         public float health;
 
@@ -16,7 +18,6 @@ namespace Unbeetleble.Game
         public void OnDamageReceive(float damage)
         {
             this.health = Math.Max(0, this.health - damage);
-            Debug.Log("Player got " + damage + " damage, health now: " + this.health);
         }
 
         void Start()
@@ -40,11 +41,11 @@ namespace Unbeetleble.Game
             if (this.poisonTimeout > 0)
             {
                 this.poisonTimeout -= Time.deltaTime;
-                this.GameController.SetVignette(new Color(0, 5, 0));
+                this.gameController.SetVignette(new Color(0, 5, 0));
             }
             else
             {
-                this.GameController.SetVignette(new Color(0, 0, 0));
+                this.gameController.SetVignette(new Color(0, 0, 0));
             }
         }
 

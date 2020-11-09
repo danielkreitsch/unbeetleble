@@ -1,18 +1,23 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 using Utility;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class PoisonBullet : MonoBehaviour
     {
+        [Inject]
+        private MusicController musicController;
+        
+        [Inject]
+        private Player player;
+
         [SerializeField]
         private new Rigidbody2D rigidbody;
-
+        
         [SerializeField]
-        private ParticleSystem ps;
-
-        private Player player;
+        private new ParticleSystem particleSystem;
 
         [SerializeField]
         private float speed;
@@ -23,14 +28,12 @@ namespace Unbeetleble.Game
         
         void Start()
         {
-            this.player = Object.FindObjectOfType<Player>().GetComponent<Player>();
-
-            this.particles = new ParticleSystem.Particle[this.ps.main.maxParticles];
+            this.particles = new ParticleSystem.Particle[this.particleSystem.main.maxParticles];
         }
         
         void Update()
         {
-            if (!this.ps.isEmitting)
+            if (!this.particleSystem.isEmitting)
             {
                 this.Invoke(() => { Object.Destroy(this); }, 3f);
             }
@@ -39,11 +42,11 @@ namespace Unbeetleble.Game
             if (this.checkTimer >= 0.1f)
             {
                 this.checkTimer = 0;
-                this.ps.GetParticles(this.particles);
+                this.particleSystem.GetParticles(this.particles);
 
                 foreach (ParticleSystem.Particle particle in this.particles)
                 {
-                    if (particle.GetCurrentColor(this.ps).a > 100)
+                    if (particle.GetCurrentColor(this.particleSystem).a > 100)
                     {
                         float distance = Vector2.Distance(new Vector2(this.transform.position.x + particle.position.x, this.transform.position.y + particle.position.y), new Vector2(this.player.transform.position.x, this.player.transform.position.y));
                         if (distance < 0.3f)

@@ -2,14 +2,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class PlayerController : MonoBehaviour
     {
-        [Header("General")]
-        [SerializeField]
+        [Inject]
+        private MusicController musicController;
+
+        [Inject]
+        private new Camera camera;
+        
+        [Inject]
         private Player player;
+        
+        [Header("General")]
 
         [SerializeField]
         private new Rigidbody2D rigidbody = default;
@@ -31,9 +39,6 @@ namespace Unbeetleble.Game
 
         [SerializeField]
         private GameObject laserPrefab;
-
-        [SerializeField]
-        private MusicController musicController;
 
         [Header("Movement")]
         [SerializeField]
@@ -330,7 +335,7 @@ namespace Unbeetleble.Game
                         }
 
                         var myPos = this.transform.position;
-                        var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                        var mousePos = this.camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -this.camera.transform.position.z));
                         mousePos.z = myPos.z;
                         var direction = (mousePos - myPos).normalized;
                         this.StartCoroutine(this.CDash(direction));
@@ -384,7 +389,7 @@ namespace Unbeetleble.Game
             this.rigidbody.bodyType = RigidbodyType2D.Static;
 
             var myPos = this.transform.position;
-            var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+            var mousePos = this.camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -this.camera.transform.position.z));
             mousePos.z = myPos.z;
 
             this.model.transform.LookAt(mousePos);

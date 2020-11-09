@@ -1,25 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Zenject;
 
 namespace Unbeetleble.Game
 {
     public class GameController : MonoBehaviour
     {
-        [SerializeField]
+        [Inject]
         private new Camera camera;
+
+        [Inject]
+        private Player player;
+
+        [Inject]
+        private Enemy enemy;
 
         [SerializeField]
         private Volume volume;
 
-        [SerializeField]
-        private Player player;
-
-        [SerializeField]
-        private Enemy enemy;
-
+        // Effects
         private UnityEngine.Rendering.Universal.ChromaticAberration chromaticAberration;
-
         private UnityEngine.Rendering.Universal.Vignette vignette;
 
         public void ScreenEffect1()
