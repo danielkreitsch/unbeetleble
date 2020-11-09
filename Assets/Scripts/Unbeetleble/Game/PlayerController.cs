@@ -242,22 +242,14 @@ namespace Unbeetleble.Game
                 {
                     if (this.horizontalInput > 0.01f)
                     {
-                        if (targetVel.x < -0.1f)
-                        {
-                            targetVel.x *= this.slowDownFactorAiring;
-                        }
-                        else if (targetVel.x < this.horizontalInput * this.moveSpeedAiring)
+                        if (targetVel.x < this.horizontalInput * this.moveSpeedAiring)
                         {
                             targetVel.x = this.horizontalInput * this.moveSpeedAiring;
                         }
                     }
                     else if (this.horizontalInput < -0.01f)
                     {
-                        if (targetVel.x > 0.1f)
-                        {
-                            targetVel.x *= this.slowDownFactorAiring;
-                        }
-                        else if (targetVel.x > this.horizontalInput * this.moveSpeedAiring)
+                        if (targetVel.x > this.horizontalInput * this.moveSpeedAiring)
                         {
                             targetVel.x = this.horizontalInput * this.moveSpeedAiring;
                         }
