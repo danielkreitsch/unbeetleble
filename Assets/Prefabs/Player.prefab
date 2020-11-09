@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1658149951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1658149952}
+  m_Layer: 11
+  m_Name: LaserOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1658149952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1658149951}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.833, z: 0.44}
+  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1.3333334}
+  m_Children: []
+  m_Father: {fileID: 6063421457452943296}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1265296184609799674
 GameObject:
   m_ObjectHideFlags: 0
@@ -44,17 +74,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivot: {fileID: 1265296184609799676}
-  offsetY: 0.18
-  radius: 0.2
-  layer:
+  pivotOffsetY: 0.18
+  checkRadius: 0.2
+  groundLayer:
     serializedVersion: 2
     m_Bits: 1792
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
-  touchingGround: 0
-  touchingGroundTime: 0
-  touchingObj: {fileID: 0}
 --- !u!1 &1265296185044312889
 GameObject:
   m_ObjectHideFlags: 0
@@ -106,9 +133,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: -3854999701081689098}
-  rb: {fileID: 1265296185044312892}
+  rigidbody: {fileID: 1265296185044312892}
   model: {fileID: 6063421457452943296}
-  collider: {fileID: 132127763}
+  laserOrigin: {fileID: 1658149952}
   animator: {fileID: 674074871}
   groundChecker: {fileID: 1265296184609799675}
   borderLayer:
@@ -117,7 +144,7 @@ MonoBehaviour:
   laserPrefab: {fileID: 6112357585925018546, guid: 272c02b00f7f1524fa01fa7bfe9156dc, type: 3}
   musicController: {fileID: 0}
   moveSpeed: 5
-  moveSpeedAiring: 2
+  moveSpeedAiring: 3
   slowDownFactorAiring: 0.95
   movementSmoothing: 0.06
   extraAirActions: 1
@@ -125,16 +152,18 @@ MonoBehaviour:
   jumpInputAhead: 0.3
   jumpDelayAfterGrounded: 0.05
   jumpReleaseGravityMultiplier: 1
-  dashDistance: 3
+  dashTrailPrefab: {fileID: 3178081972972169783, guid: 74ede4e23dc1e444291d15cf40a6c53b, type: 3}
+  dashDistance: 4
   postDashVelocity: 5
   dashTime: 0.3
-  dashEaseType: linear
+  dashEaseType: 21
+  laserPrepareTime: 0.58
+  laserSoundDelay: 0
   laserBuildupTime: 1.2
   laserDisappearTime: 0.3
   fallGravityMultiplier: 1.05
   gravityLimit: 15
-  testPrefab: {fileID: 4086024400148629874, guid: 5aff9d7511888b3409fd9b5062d4a30e, type: 3}
-  knockbackTime: 0.63
+  knockupTime: 0.63
 --- !u!114 &-3854999701081689098
 MonoBehaviour:
   m_ObjectHideFlags: 0
