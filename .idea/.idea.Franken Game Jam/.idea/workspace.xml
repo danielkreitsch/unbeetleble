@@ -20,34 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c8755ded-7aba-4e18-b7bc-bb6089f26c9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Dash.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Dash.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/DigOut.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/DigOut.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/JumpOut.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/JumpOut.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Lasergun.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Lasergun.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Thunder.mp3" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Audio/Thunder.mp3.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Trail.prefab" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Prefabs/Trail.prefab.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Franken Game Jam/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Player.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/Player.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Models/Player.fbx.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Models/Player.fbx.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Laser.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Laser.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Scene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Enemy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/GameController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Laser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Laser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LaserRecognizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LaserRecognizer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/LivingEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/LivingEntity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/MusicController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/MusicController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Player.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,6 +141,7 @@
       <workItem from="1604784227831" duration="28862000" />
       <workItem from="1604815311732" duration="1556000" />
       <workItem from="1604835359022" duration="25054000" />
+      <workItem from="1604890282712" duration="268000" />
     </task>
     <servers />
   </component>
@@ -200,10 +176,10 @@
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
     <state x="93" y="93" width="2008" height="1008" maximized="true" key="VCS.FileHistoryDialog/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604862213803" />
-    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604865704611">
+    <state x="759" y="256" width="676" height="682" key="find.popup" timestamp="1604890292142">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>
-    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604865704611" />
+    <state x="759" y="256" width="676" height="682" key="find.popup/0.0.2194.1194/3840.0.1920.1040@0.0.2194.1194" timestamp="1604890292142" />
     <state x="760" y="264" width="672" height="678" key="search.everywhere.popup" timestamp="1604853683285">
       <screen x="0" y="0" width="2194" height="1194" />
     </state>

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerController : MonoBehaviour
 {
@@ -289,17 +293,33 @@ public class PlayerController : MonoBehaviour
 
                     this.jumpInputTimeout = 0;
 
-                    if (this.horizontalInput > 0.01f)
+                    if (canJumpFromGround)
                     {
-                        targetVel.x = 3;
-                    }
-                    else if (this.horizontalInput < -0.01f)
-                    {
-                        targetVel.x = -3;
-                    }
+                        if (this.horizontalInput > 0.01f)
+                        {
+                            targetVel.x = 3;
+                        }
+                        else if (this.horizontalInput < -0.01f)
+                        {
+                            targetVel.x = -3;
+                        }
 
-                    this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
-                    this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
+                        this.rb.velocity = new Vector2(this.rb.velocity.x, 0);
+                        this.rb.AddForce(Vector2.up * this.jumpVelocity, ForceMode2D.Impulse);
+                    }
+                    else
+                    {
+                        var direction = Vector3.up;
+                        if (this.horizontalInput > 0.01f)
+                        {
+                            direction = new Vector3(1, 1, 0);
+                        }
+                        else if (this.horizontalInput < -0.01f)
+                        {
+                            direction = new Vector3(-1, 1, 0);
+                        }
+                        this.StartCoroutine(this.CDash(direction));
+                    }
                 }
             }
 
@@ -320,7 +340,11 @@ public class PlayerController : MonoBehaviour
                         this.extraAirActionsUsed++;
                     }
 
-                    this.StartCoroutine(this.CDash());
+                    var myPos = this.transform.position;
+                    var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+                    mousePos.z = myPos.z;
+                    var direction = (mousePos - myPos).normalized;
+                    this.StartCoroutine(this.CDash(direction));
                 }
             }
         }
@@ -464,25 +488,21 @@ public class PlayerController : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    private IEnumerator CDash()
+    private IEnumerator CDash(Vector3 direction)
     {
+        direction = direction.normalized;
+        
         var trailObj = Object.Instantiate(this.trailPrefab, this.transform.position, Quaternion.identity);
         trailObj.transform.parent = this.transform;
         
         this.musicController.PlayDash();
-
-        var myPos = this.transform.position;
-        var mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        mousePos.z = myPos.z;
-
-        var dashDir = (mousePos - myPos).normalized;
 
         var startPosition = this.transform.position;
         var targetPosition = this.transform.position;
 
         bool canDash = false;
 
-        var raycast = Physics2D.Raycast(this.transform.position, dashDir, this.dashDistance + 0.25f, this.borderLayer);
+        var raycast = Physics2D.Raycast(this.transform.position, direction, this.dashDistance + 0.25f, this.borderLayer);
         if (raycast.collider != null)
         {
             float distance = Vector2.Distance(this.transform.position, raycast.point);
@@ -490,13 +510,13 @@ public class PlayerController : MonoBehaviour
             {
                 canDash = true;
                 var hit = new Vector3(raycast.point.x, raycast.point.y, 0);
-                targetPosition = hit - 0.25f * dashDir;
+                targetPosition = hit - 0.25f * direction;
             }
         }
         else
         {
             canDash = true;
-            targetPosition = this.transform.position + this.dashDistance * dashDir;
+            targetPosition = this.transform.position + this.dashDistance * direction;
         }
 
         if (canDash)
@@ -527,7 +547,7 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                this.rb.velocity = this.postDashVelocity * dashDir;
+                this.rb.velocity = this.postDashVelocity * direction;
             }
         }
 
