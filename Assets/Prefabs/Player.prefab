@@ -132,7 +132,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729cdbd68fcabe04eb957731a5279a80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: -3854999701081689098}
   rigidbody: {fileID: 1265296185044312892}
   model: {fileID: 6063421457452943296}
   laserOrigin: {fileID: 1658149952}
@@ -142,9 +141,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   laserPrefab: {fileID: 6112357585925018546, guid: 272c02b00f7f1524fa01fa7bfe9156dc, type: 3}
-  musicController: {fileID: 0}
   moveSpeed: 5
-  moveSpeedAiring: 3
+  moveSpeedAiring: 2.5
   slowDownFactorAiring: 0.95
   movementSmoothing: 0.06
   extraAirActions: 1
@@ -176,7 +174,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5dfd03d1b2b23848948a70e60235109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameController: {fileID: 0}
   health: 20
 --- !u!114 &4030882182899560517
 MonoBehaviour:

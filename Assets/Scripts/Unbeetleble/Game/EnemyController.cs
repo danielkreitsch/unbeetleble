@@ -348,18 +348,19 @@ namespace Unbeetleble.Game
 
         private HoleEntry GetHoleEntryBehindTarget()
         {
-            var hit = Physics2D.Raycast(this.raycastOrigin.position, this.target.transform.position - this.raycastOrigin.position, 1000, this.border.gameObject.layer);
+            var hit = Physics2D.Raycast(this.transform.position, (this.target.transform.position - this.raycastOrigin.position), 1000, this.border.gameObject.layer);
 
-            if (Vector2.Distance(hit.point, this.transform.position) < 10)
+            if (Vector2.Distance(hit.point, this.transform.position) < 5)
             {
+                Debug.Log("Target hole is too close");
                 this.forcePoisonAttack = true;
                 return this.border.GetFurthestHoleEntry(this.transform.position, this.target.transform.position);
             }
 
             if (hit.collider == null)
             {
-                Debug.LogError("Border behind player not found.");
-                return this.border.GetClosestHoleEntry(this.target.transform.position);
+                Debug.LogWarning("Border behind player not found.");
+                return this.border.GetFurthestHoleEntry(this.transform.position, this.target.transform.position);
             }
 
             return this.border.GetClosestHoleEntry(hit.point);
