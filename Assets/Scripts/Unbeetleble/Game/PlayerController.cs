@@ -112,7 +112,8 @@ namespace Unbeetleble.Game
         [SerializeField]
         private float knockupTime;
 
-        private Vector2 velocity = new Vector2();
+        private Vector2 velocity = Vector2.zero;
+        private Vector2 previousPosition = Vector2.zero;
 
         private float horizontalInput = 0;
         private float jumpInputTimeout = 0;
@@ -121,10 +122,12 @@ namespace Unbeetleble.Game
         private bool dashInput = false;
 
         private bool attacking = false;
+        private bool dashing = false;
         private bool lookRight = true;
         private int extraAirActionsUsed = 0;
         private bool died = false;
         private bool outOfControl = false;
+        private float fallingSpeed = 0;
 
         void Start()
         {
@@ -217,9 +220,10 @@ namespace Unbeetleble.Game
                 this.animator.SetFloat("WalkSpeed", 0);
             }
            
-            this.animator.SetFloat("VelocityY", this.rigidbody.velocity.y);
+            this.animator.SetFloat("FallingSpeed", this.fallingSpeed);
             this.animator.SetBool("TouchingGround", this.groundChecker.TouchingGround);
             this.animator.SetBool("Attacking", this.attacking);
+            this.animator.SetBool("Dashing", this.dashing);
 
             if (!this.attacking && !this.outOfControl)
             {
@@ -238,6 +242,8 @@ namespace Unbeetleble.Game
             {
                 return;
             }
+
+            this.fallingSpeed = Mathf.Max(0,this.previousPosition.y - this.transform.position.y);
 
             var targetVel = new Vector2(this.rigidbody.velocity.x, this.rigidbody.velocity.y);
 
@@ -369,6 +375,8 @@ namespace Unbeetleble.Game
             {
                 this.rigidbody.velocity = Vector2.SmoothDamp(this.rigidbody.velocity, targetVel, ref this.velocity, this.movementSmoothing);
             }
+            
+            this.previousPosition = this.transform.position;
         }
 
         public void OnDamageReceive(float damage)
@@ -480,6 +488,8 @@ namespace Unbeetleble.Game
 
         private IEnumerator CDash(Vector3 direction)
         {
+            this.dashing = true;
+            
             direction = direction.normalized;
 
             var trailObj = Object.Instantiate(this.dashTrailPrefab, this.transform.position, Quaternion.identity);
@@ -543,6 +553,8 @@ namespace Unbeetleble.Game
 
             trailObj.transform.parent = null;
             trailObj.GetComponent<DashTrail>().Remove();
+
+            this.dashing = false;
         }
 
         public void DropFromPlatfrom()
