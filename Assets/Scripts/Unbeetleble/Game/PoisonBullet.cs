@@ -46,7 +46,7 @@ namespace Unbeetleble.Game
 
                 foreach (ParticleSystem.Particle particle in this.particles)
                 {
-                    if (particle.GetCurrentColor(this.particleSystem).a > 100)
+                    if (particle.GetCurrentColor(this.particleSystem).a > 50)
                     {
                         float distance = Vector2.Distance(new Vector2(this.transform.position.x + particle.position.x, this.transform.position.y + particle.position.y), new Vector2(this.player.transform.position.x, this.player.transform.position.y));
                         if (distance < 0.3f)

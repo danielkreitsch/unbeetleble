@@ -12,7 +12,7 @@ public class DarkerMaterial : MonoBehaviour
     {
         foreach (MeshRenderer renderer in this.GetComponentsInChildren<MeshRenderer>())
         {
-            renderer.material.color = new Color(renderer.material.color.r * this.factor, renderer.material.color.g * this.factor, renderer.material.color.b * this.factor);
+            //renderer.material.color = new Color(renderer.material.color.r * this.factor, renderer.material.color.g * this.factor, renderer.material.color.b * this.factor);
         }
     }
 

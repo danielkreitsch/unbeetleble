@@ -3,7 +3,12 @@ guid: f425819560dbca84a8f5a55d4a114d8f
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Erde
+    second: {fileID: 2100000, guid: 41a6c6039eb5f9c4b83cbe31f8d6e1b7, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

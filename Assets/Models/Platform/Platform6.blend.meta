@@ -3,7 +3,12 @@ guid: 6c84aafa1213f3d47b84c84a227ff503
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blatt
+    second: {fileID: 2100000, guid: ddae62ea5100e784e8c47be20b0e3ca4, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
