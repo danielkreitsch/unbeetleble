@@ -32,7 +32,7 @@ namespace Unbeetleble.Game
                 this.poisonCheckTimer = 0;
                 if (this.poisonTrigger)
                 {
-                    this.poisonTimeout = 0.2f;
+                    this.poisonTimeout = 0.3f;
                     this.poisonTrigger = false;
                     this.OnDamageReceive(0.1f);
                 }
@@ -41,7 +41,7 @@ namespace Unbeetleble.Game
             if (this.poisonTimeout > 0)
             {
                 this.poisonTimeout -= Time.deltaTime;
-                this.gameController.SetVignette(new Color(0, 5, 0));
+                this.gameController.SetVignette(new Color(0, 0.5f, 0));
             }
             else
             {
