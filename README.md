@@ -4,7 +4,7 @@ A game that was created within 48 hours during the Franken Game Jam 2020.
 
 Beet the unbeetleble beetle or get beeten up.
 
-Download: [creamcheesegames.itch.io/mad-scientist](https://creamcheesegames.itch.io/mad-scientist)
+Download: [creamcheesegames.itch.io/unbeetleble](https://creamcheesegames.itch.io/unbeetleble)
 
 ### Controls
 - **Attack**: Left Mouse
